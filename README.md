@@ -33,5 +33,4 @@ This application helps students **submit required documents, select subjects, re
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/gttc-hall-ticket.git
-cd gttc-hall-ticket
+https://github.com/Manojarya0207/Hall-Ticket-Generator-Website.git
