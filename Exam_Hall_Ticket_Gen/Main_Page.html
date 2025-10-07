@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTTC Magadi - Exam Hall Ticket System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ======================
+   Global Styles
+====================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        /* ======================
+   Top Header
+====================== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo img {
+            width: 90px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .top-left img {
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+        .top-left img:hover {
+            transform: scale(1.05);
+        }
+        .top-left-text h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #1c2b39;
+            font-weight: 700;
+        }
+        .top-left-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .top-right img {
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+        .top-right img:hover {
+            transform: scale(1.05);
+        }
+        /* ======================
+   Blue Bar
+====================== */
+        .blue-bar {
+            background: linear-gradient(90deg, #006adf 0%, #0084ff 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 12px rgba(0, 106, 223, 0.2);
+        }
+        .blue-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .blue-left-text h2 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .blue-left-text p {
+            margin: 0;
+            font-size: 18px;
+        }
+        .blue-left-text p span {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .blue-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .signout-btn {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .signout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        /* ======================
+   Container / Form
+====================== */
+        .container {
+            max-width: 850px;
+            margin: 30px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2c3e50;
+            position: relative;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 3px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            font-weight: 600;
+        }
+        h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin: 20px 0 15px;
+        }
+        .institution {
+            background: linear-gradient(90deg, #2c3e50 0%, #4a6580 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+        }
+        .institution h2 {
+            color: white;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f9fafb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+        .exam-type {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        .checkbox-group:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        /* Validation error styles */
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+        input.error,
+        select.error {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+        }
+        /* Subjects selection */
+        .subjects-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .subjects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .subjects-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .action-btn:hover {
+            background-color: #2980b9;
+        }
+        .action-btn.remove-all {
+            background-color: #e74c3c;
+        }
+        .action-btn.remove-all:hover {
+            background-color: #c0392b;
+        }
+        .semester-group {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+        .semester-header {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: #e6e6e6;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .subjects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .subject-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .subject-item input {
+            margin-right: 10px;
+        }
+        /* ======================
+   Upload Section - UPDATED
+====================== */
+        .upload-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #3498db;
+            font-size: 20px;
+        }
+        .upload-box {
+            border: 2px dashed #bdc3c7;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #fafbfc;
+        }
+        .upload-box:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        .upload-box.dragover {
+            border-color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.05);
+        }
+        .upload-icon {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        .upload-text {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .browse-btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .browse-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .camera-btn {
+            background: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .camera-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        .file-input {
+            display: none;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        .image-preview {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            object-fit: contain;
+            z-index: 1;
+            background: white;
+        }
+        .upload-content {
+            position: relative;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+        .has-image .upload-content {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .has-image .image-preview {
+            display: block;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        .has-image .remove-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .remove-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        /* Success message */
+        .success-message {
+            display: none;
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        }
+        /* ======================
+   Responsive
+====================== */
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            .blue-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            .blue-left, .blue-right {
+                justify-content: center;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            .upload-box {
+                padding: 15px;
+                min-height: 150px;
+            }
+            .form-section {
+                padding: 15px;
+            }
+            .subjects-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .top-left-text h1 {
+                font-size: 20px;
+            }
+            .blue-left-text h2 {
+                font-size: 22px;
+            }
+            .blue-left-text p {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+        /* Acknowledgment Page - Updated Design */
+        .acknowledgment-page {
+            max-width: 850px;
+            margin: 30px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .acknowledgment-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        .acknowledgment-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .acknowledgment-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+            font-weight: 600;
+        }
+        .acknowledgment-header .id-card {
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #333;
+            text-align: center;
+            width: 100px;
+            border: 1px solid #ddd;
+        }
+        .acknowledgment-body {
+            margin-bottom: 20px;
+        }
+        .acknowledgment-success {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .acknowledgment-success i {
+            font-size: 50px;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+        .acknowledgment-success h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .acknowledgment-success p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .info-value {
+            color: #666;
+            font-size: 14px;
+        }
+        .submitted-documents {
+            margin-bottom: 20px;
+        }
+        .submitted-documents h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .document-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .document-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .document-label {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        .important-notes {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fffbe6;
+            border: 1px solid #ffe58a;
+            border-radius: 8px;
+        }
+        .important-notes h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .important-notes ul {
+            list-style: none;
+            margin-left: 0;
+            padding: 0;
+        }
+        .important-notes li {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #666;
+            position: relative;
+            padding-left: 20px;
+        }
+        .important-notes li:before {
+            content: "â€¢";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+        .download-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .download-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .download-button:hover::before {
+            left: 100%;
+        }
+        .download-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+        }
+        .download-button:active {
+            transform: translateY(0);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-left">
+            <img src="images/Gttc_Magadi_Logo.jpg" alt="GTTC Logo">
+            <div class="top-left-text">
+                <h1>Government Tool Room & Training Centre <span>Magadi - 36</span></h1>
+                <p>Magadi - Exam Hall Ticket Generator</p>
+            </div>
+        </div>
+        <div class="top-right">
+            <img src="images/Karnataka_logo.png" alt="Karnataka Logo">
+        </div>
+    </div>
+    <!-- Blue Bar -->
+    <div class="blue-bar">
+        <div class="blue-left">
+            <div class="logo">
+                <img src="images/Gttc_Magadi_Logo.jpg" alt="College Logo">
+            </div>
+            <div class="blue-left-text">
+                <h2>GTTC MAGADI</h2>
+                <p>Government Tool Room & Training Centre <span>Magadi</span></p>
+            </div>
+        </div>
+        <div class="blue-right">
+            <span id="usernameDisplay">ðŸ‘¤ Guest</span>
+            <button class="signout-btn">Sign Out</button>
+        </div>
+    </div>
+    <!-- Main Form Container -->
+    <div class="container main-form" id="mainForm">
+        <!-- Success Message (hidden by default) -->
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> Your documents have been submitted successfully!
+        </div>
+        <!-- Personal Information -->
+        <div class="form-section">
+            <h2>Personal Information</h2>
+            <div class="form-group">
+                <label for="fullname" class="required">Full Name</label>
+                <input type="text" id="fullname" placeholder="Enter your full name (letters and spaces only)">
+                <div class="error-message" id="fullname-error">Please enter a valid name (only letters and spaces
+                    allowed)</div>
+            </div>
+            <div class="form-group">
+                <label for="regnumber" class="required">Register Number</label>
+                <input type="text" id="regnumber" placeholder="Enter register number (digits only)" maxlength="10">
+                <div class="error-message" id="regnumber-error">Please enter a valid register number (only digits
+                    allowed)</div>
+            </div>
+            <div class="form-group">
+                <label for="scheme" class="required">Scheme</label>
+                <select id="scheme">
+                    <option disabled selected>Select scheme</option>
+                    <option value="C-20">C - 20</option>
+                    <option value="C-24">C - 24</option>
+                    <option value="C-25">C - 25</option>
+                </select>
+                <div class="error-message" id="scheme-error">Please select a scheme</div>
+            </div>
+            <div class="form-group">
+                <label for="course" class="required">Course</label>
+                <select id="course">
+                    <option disabled selected>Select your course</option>
+                    <option value="Tool and Die Making">Diploma in Tool and Die Making</option>
+                    <option value="Mechatronics">Diploma in Mechatronics</option>
+                    <option value="Electrical & Electronics">Diploma in Electrical & Electronics Engineering</option>
+                    <option value="AI & ML">Diploma in Artificial Intelligence & Machine Learning</option>
+                </select>
+                <div class="error-message" id="course-error">Please select a course</div>
+            </div>
+            <div class="form-group">
+                <label for="semester" class="required">Semester</label>
+                <select id="semester">
+                    <option disabled selected>Select semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                </select>
+                <div class="error-message" id="semester-error">Please select a semester</div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="required">Phone Number</label>
+                <input type="text" id="phone" placeholder="Enter 10-digit phone number" maxlength="10">
+                <div class="error-message" id="phone-error">Please enter a valid 10-digit phone number</div>
+            </div>
+        </div>
+        <!-- Exam Type -->
+        <div class="form-section">
+            <h2>Exam Type</h2>
+            <div class="exam-type">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="regular" name="examType">
+                    <label for="regular">Regular Exam</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="supplementary" name="examType">
+                    <label for="supplementary">Supplementary Exam</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="both" name="examType">
+                    <label for="both">Both Regular & Supplementary</label>
+                </div>
+            </div>
+            <div class="error-message" id="examType-error">Please select at least one exam type</div>
+        </div>
+        <!-- Subjects Selection -->
+        <div class="form-section">
+            <h2>Subject Selection</h2>
+            <div id="subjectsContainer" class="subjects-container">
+                <div class="subjects-header">
+                    <h3>Subjects for Examination</h3>
+                    <div class="subjects-actions">
+                        <button class="action-btn select-all" id="selectAllBtn">Select All</button>
+                        <button class="action-btn remove-all" id="removeAllBtn">Remove All</button>
+                    </div>
+                </div>
+                <div id="subjectsList" class="subjects-list">
+                    <!-- Subjects will be populated here dynamically -->
+                </div>
+                <div class="error-message" id="subjects-error">Please select at least one subject</div>
+            </div>
+        </div>
+        <!-- Document Upload Section - UPDATED -->
+        <header>
+            <h1> <span class="required">GTTC Magadi Clearance Certificate Format Only</span></h1>
+        </header>
+        <div class="upload-section">
+            <div class="section-title">
+                <i class="fas fa-file-upload"></i>
+                <span>NOC Document <span class="required">*</span></span>
+            </div>
+            <div class="upload-box" id="docUploadBox">
+                <img class="image-preview" id="docPreview" alt="Document preview">
+                <div class="upload-content">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p class="upload-text">Drag and drop or click to browse</p>
+                    <div class="browse-btn">Choose File</div>
+                </div>
+                <div class="remove-btn" id="docRemoveBtn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <input type="file" class="file-input" id="docInput" accept=".jpg,.jpeg,.png,.pdf">
+            </div>
+            <div class="error-message" id="doc-error">Please upload a NOC document</div>
+        </div>
+        <!-- Fees Receipt Section - UPDATED -->
+        <div class="upload-section">
+            <div class="section-title">
+                <i class="fas fa-receipt"></i>
+                <span>Fees Receipt <span class="required">*</span></span>
+            </div>
+            <div class="upload-box" id="receiptUploadBox">
+                <img class="image-preview" id="receiptPreview" alt="Receipt preview">
+                <div class="upload-content">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p class="upload-text">Drag and drop or click to browse</p>
+                    <div class="browse-btn">Choose File</div>
+                </div>
+                <div class="remove-btn" id="receiptRemoveBtn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <input type="file" class="file-input" id="receiptInput" accept=".jpg,.jpeg,.png,.pdf">
+            </div>
+            <div class="error-message" id="receipt-error">Please upload a fees receipt</div>
+        </div>
+        <!-- Passport Photo Section - UPDATED -->
+        <div class="upload-section">
+            <div class="section-title">
+                <i class="fas fa-id-card"></i>
+                <span>Passport Photo <span class="required">*</span></span>
+            </div>
+            <div class="upload-box" id="photoUploadBox">
+                <img class="image-preview" id="photoPreview" alt="Photo preview">
+                <div class="upload-content">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p class="upload-text">Drag and drop or click to browse</p>
+                    <div class="browse-btn">Choose File</div>
+                    <div class="camera-btn">Use Camera</div>
+                </div>
+                <div class="remove-btn" id="photoRemoveBtn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <input type="file" class="file-input" id="photoInput" accept="image/*">
+            </div>
+            <div class="error-message" id="photo-error">Please upload a passport photo</div>
+        </div>
+        <button class="submit-btn" id="submitBtn">Submit Documents</button>
+    </div>
+    <!-- Acknowledgment Page -->
+    <div class="container acknowledgment-page" id="acknowledgmentPage" style="display:none;">
+        <div class="acknowledgment-header">
+            <h2>GOVERNMENT TOOL ROOM & TRAINING CENTRE</h2>
+            <p>MAGADI</p>
+            <div class="id-card">STU_36<br>Date: 10/12/2024</div>
+        </div>
+        <div class="acknowledgment-body">
+            <div class="acknowledgment-success">
+                <i class="fas fa-check-circle"></i>
+                <h3>Application Submitted Successfully!</h3>
+                <p>Your exam registration application has been received and is being processed.</p>
+            </div>
+            <div class="student-info">
+                <div class="info-item">
+                    <div class="info-label">Student Name:</div>
+                    <div id="ackStudentName" class="info-value">Rajeshk</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Register No.:</div>
+                    <div id="ackRegNumber" class="info-value">8360123</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Course:</div>
+                    <div id="ackCourse" class="info-value">AI & ML</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Semester:</div>
+                    <div id="ackSemester" class="info-value">5</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Phone Number:</div>
+                    <div id="ackPhone" class="info-value">6360596768</div>
+                </div>
+            </div>
+            <div class="submitted-documents">
+                <h3>Submitted Documents:</h3>
+                <div class="document-grid">
+                    <div class="document-item">
+                        <img id="ackPhoto" src="" alt="Student Photo">
+                        <div class="document-label">Student Photo</div>
+                    </div>
+                    <div class="document-item">
+                        <img id="ackDoc" src="" alt="NOC Document">
+                        <div class="document-label">NOC</div>
+                    </div>
+                    <div class="document-item">
+                        <img id="ackReceipt" src="" alt="Fees Receipt">
+                        <div class="document-label">Fees Receipt</div>
+                    </div>
+                </div>
+            </div>
+            <div class="important-notes">
+                <h4>Important Notes:</h4>
+                <ul>
+                    <li>Your documents have been submitted for verification</li>
+                    <li>Hall ticket will be generated after document verification</li>
+                    <li>Keep this acknowledgment for your records</li>
+                    <li>Contact the exam office for any queries</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            Government Tool Room & Training Centre, Magadi
+        </div>
+        <button class="download-button" onclick="window.print()">
+            <i class="fas fa-download"></i> Download Acknowledgment & Continue
+        </button>
+    </div>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCm_LTpJiyZyCsGTnYweQWDJRrgdk9t1Qk",
+            authDomain: "exam-hall-ticket.firebaseapp.com",
+            projectId: "exam-hall-ticket",
+            storageBucket: "exam-hall-ticket.appspot.com", // Fixed from .firebasestorage.app
+            messagingSenderId: "810080982783",
+            appId: "1:810080982783:web:c52f53a22a6a4bd9f05eca"
+        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        // Complete subject data structure
+        const subjectsData = {
+            "C-20": {
+                "Mechatronics": {
+                    "1": [
+                        { code: "20MC11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "20MC12T", name: "ENGINEERING DRAWING-I" },
+                        { code: "20MC13T", name: "FUNDAMENTAL OF ELECTRICAL & ELECTRONICS ENGG" },
+                        { code: "20MC11P", name: "COMMUNICATION SKILL-LAB" },
+                        { code: "20MC12P", name: "FUNDAMENTAL OF ELECTRICAL & ELECTRONICS ENGG-LAB" },
+                        { code: "20MC11A", name: "ENVIRONMENTAL SCIENCE" },
+                        { code: "20MC12A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" }
+                    ],
+                    "2": [
+                        { code: "20MC21T", name: "APPLIED SCIENCE" },
+                        { code: "20MC22T", name: "ENGINEERING DRAWING-II" },
+                        { code: "20MC21P", name: "APPLIED SCIENCE LAB" },
+                        { code: "20MC22P", name: "IT SKILLS LAB" },
+                        { code: "20MC23P", name: "WORKSHOP LAB" },
+                        { code: "20MC21A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" }
+                    ],
+                    "3": [
+                        { code: "20MC31A", name: "KOUSHALYA KAIPIDI" },
+                        { code: "20MC31T", name: "ANALOG & DIGITAL CIRCUITS" },
+                        { code: "20MC32T", name: "MANUFACTURING TECHNOLOGY" },
+                        { code: "20MC33T", name: "FLUID POWER ENGINEERING" },
+                        { code: "20MC34T", name: "FUNDAMENTAL OF MECHATRONICS AND MEASUREMENT SYSTEMS" },
+                        { code: "20MC31P", name: "ANALOG AND DIGITAL CIRCUITS LAB" },
+                        { code: "20MC32P", name: "MACHINE SHOP & CNC LAB" },
+                        { code: "20MC33P", name: "FLUID POWER ENGINEERING LAB" },
+                        { code: "20MC34P", name: "FUNDAMENTAL OF MECHATRONICS AND MEASUREMENT SYSTEMS LAB" }
+                    ],
+                    "4": [
+                        { code: "20MC42T", name: "MECHANICS & METROLOGY" },
+                        { code: "20MC43T", name: "MATERIALS FOR ENGINEERING" },
+                        { code: "20MC44T", name: "MICRO CONTROLLER" },
+                        { code: "20MC41T", name: "POWER ELECTRONICS" },
+                        { code: "20MC41A", name: "INDIAN CONSTITUTION" },
+                        { code: "20MC41P", name: "POWER ELECTRONICS LAB" },
+                        { code: "20MC42P", name: "MATERIAL TESTING & METROLOGY LAB" },
+                        { code: "20MC43P", name: "MICRO CONTROLLER LAB" }
+                    ],
+                    "5": [
+                        { code: "20MC51T", name: "PROGRAMMABLE LOGIC CONTROLLER" },
+                        { code: "20MC52T", name: "AUTOMOTIVE ELECTRONICS" },
+                        { code: "20MC53T", name: "PROJECT MANAGEMENT SKILLS" },
+                        { code: "20MC51P", name: "PROGRAMMABLE LOGIC CONTROLLER LAB" },
+                        { code: "20MC52P", name: "STATISTICS AND ANALYTICS LAB" },
+                        { code: "20MC53P", name: "PROFESSIONAL PRACTICE LAB" }
+                    ],
+                    "6": [
+                        { code: "20MC61T", name: "INDUSTRIAL AUTOMATION AND ROBOTICS" },
+                        { code: "20MC62T", name: "COMPUTER INTEGRATED MANUFACTURING SYSTEM" },
+                        { code: "20MC61P", name: "INDUSTRIAL AUTOMATION AND ROBOTICS LAB" },
+                        { code: "20MC62P", name: "COMPUTER AIDED ENGINEERING DRAWING" },
+                        { code: "20MC63P", name: "CONTROL ENGINEERING LAB" }
+                    ]
+                },
+                "Electrical & Electronics": {
+                    "1": [
+                        { code: "20EE11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "20EE12T", name: "ENGINEERING DRAWING-I" },
+                        { code: "20EE13T", name: "FUNDAMENTAL OF ELECTRICAL & ELECTRONICS ENGG" },
+                        { code: "20EE11P", name: "COMMUNICATION SKILL-LAB" },
+                        { code: "20EE12P", name: "FUNDAMENTAL OF ELECTRICAL & ELECTRONICS ENGG-LAB" },
+                        { code: "20EE11A", name: "ENVIRONMENTAL SCIENCE" },
+                        { code: "20EE12A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" }
+                    ],
+                    "2": [
+                        { code: "20EE21T", name: "APPLIED SCIENCE" },
+                        { code: "20EE22T", name: "FEEE-II" },
+                        { code: "20EE21P", name: "APPLIED SCIENCE LAB" },
+                        { code: "20EE22P", name: "IT SKILLS LAB" },
+                        { code: "20EE23P", name: "FEEE-II LAB" },
+                        { code: "20EE21A", name: "SAHITHYA SINCHANA-II/ BALAKE KANNADA-II" }
+                    ],
+                    "3": [
+                        { code: "20EE37A", name: "KOUSHALYA KAIPIDI" },
+                        { code: "20EE31T", name: "ELECTRICAL ENGG. SIMULATION" },
+                        { code: "20EE32T", name: "DIGITAL ELECTRONICS" },
+                        { code: "20EE33T", name: "ELECTRICAL PANEL ENGG. WITH SMART PANEL" },
+                        { code: "20EE34T", name: "BUILDING ELECTRIFICATION & AUTOMATION" },
+                        { code: "20EE31P", name: "Electrical Engineering - Simulation" },
+                        { code: "20EE32P", name: "Digital Electronics" },
+                        { code: "20EE33P", name: "Electrical Panel Engineering with Smart Panel" },
+                        { code: "20EE34P", name: "CAD - Electrical" },
+                        { code: "20EE35P", name: "Building Electrification and Automation" }
+                    ],
+                    "4": [
+                        { code: "20EE41I", name: "Fund of Power Electronics" },
+                        { code: "20EE42I", name: "Electrical Quality Measurements" },
+                        { code: "20EE43I", name: "Electric Motors & Transformers" },
+                        { code: "20EE44I", name: "Microcontroller & IOT Applications" },
+                        { code: "20EE45I", name: "Industrial Automation & Control" },
+                        { code: "20EE41P", name: "Fundamentals of Power Electronics" },
+                        { code: "20EE42P", name: "Electrical Quality Measurements" },
+                        { code: "20EE43P", name: "Electric Motors & Transformers" },
+                        { code: "20EE44P", name: "Microcontroller & IOT Applications" },
+                        { code: "20EE45P", name: "Industrial Automation & Control" }
+                    ],
+                    "5": [
+                        { code: "20EE51T", name: "Electric Power Transmission and Distribution" },
+                        { code: "20EE51I", name: "Power Electronics for Electric Vehicles" },
+                        { code: "20EE52I", name: "Renewable Technologies" },
+                        { code: "20EE51P", name: "SCADA for Electrical" },
+                        { code: "20EE52P", name: "Project Work" }
+                    ],
+                    "6": []
+                },
+                "AI & ML": {
+                    "1": [
+                        { code: "20AL11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "20AL12T", name: "COMPUTER FUNDAMENTALS AND INTRODUCTION TO C" },
+                        { code: "20AL13T", name: "ANALOG ELECTRONICS CIRCUIT" },
+                        { code: "20AL14P", name: "COMPUTER FUNDAMENTALS AND INTRODUCTION TO C LAB" },
+                        { code: "20AL15P", name: "ANALOG ELECTRONICS CIRCUIT LAB" },
+                        { code: "20AL16A", name: "ENVIRONMENTAL SCIENCE" },
+                        { code: "20AL17A", name: "SAHITHYA SINCHANA-1" },
+                        { code: "20AL18A", name: "BODY MIND CO-ORDINATION ACTIVITY" }
+                    ],
+                    "2": [
+                        { code: "20AI21T", name: "APPLIED SCIENCE" },
+                        { code: "20AI22T", name: "DATA STRUCTURE AND ALGORITHM" },
+                        { code: "20AI23T", name: "DIGITAL ELECTRONICS" },
+                        { code: "20AI21P", name: "DATA STRUCTURE AND ALGORITHM LAB" },
+                        { code: "20AI22P", name: "DIGITAL ELECTRONICS LAB" },
+                        { code: "20AI23P", name: "ENGINEERING DESIGN" },
+                        { code: "20AI24P", name: "ENGlish COMMUNICATION SKILLS" },
+                        { code: "20AI21A", name: "SAHITHYA SINCHANA â€“ II" }
+                    ],
+                    "3": [
+                        { code: "20AI31T", name: "ENGINEERING MATHEMATICS FOR AI" },
+                        { code: "20AI32T", name: "PYTHON PROGRAMMING" },
+                        { code: "20AI33T", name: "OOPS WITH C++" },
+                        { code: "20AI34T", name: "INTRODUCTION TO MICROCONTROLLER AND ES" },
+                        { code: "20AI31P", name: "C ++ LAB" },
+                        { code: "20AI32P", name: "PYTHON PROGRAMMING LAB" },
+                        { code: "20AI33P", name: "MICROCONTROLLER LAB" },
+                        { code: "20AI34P", name: "DBMS" }
+                    ],
+                    "4": [
+                        { code: "20AI41T", name: "APPLICATION DEVELOPMENT" },
+                        { code: "20AI42T", name: "IOT" },
+                        { code: "20AI43T", name: "DATA SCIENCE" },
+                        { code: "20AI44T", name: "MACHINE LEARNING" },
+                        { code: "20AI41P", name: "APPLICATION DEVELOPMENT (JAVA) LAB" },
+                        { code: "20AI42P", name: "IOT LAB" },
+                        { code: "20AI43P", name: "DATA SCIENCE LAB" },
+                        { code: "20AI44P", name: "MACHINE LEARNING LAB" }
+                    ],
+                    "5": [
+                        { code: "20AL51T", name: "IP & NLP" },
+                        { code: "20AL52T", name: "DEEP LEARNING" },
+                        { code: "20AL53T", name: "ROBOTICS" },
+                        { code: "20AL51P", name: "IP & NLP LAB" },
+                        { code: "20AL52P", name: "ROBOTICS LAB" },
+                        { code: "20AL53P", name: "DEEP LEARNING LAB" }
+                    ],
+                    "6": []
+                },
+                "Tool and Die Making": {
+                    "1": [
+                        { code: "20TD11T", name: "Engineering Mathematics" },
+                        { code: "20TD12T", name: "Engineering Drawing-I" },
+                        { code: "20TD13T", name: "Production Technology-I" },
+                        { code: "20TD11P", name: "Communication Skill-Lab" },
+                        { code: "20TD12P", name: "Workshop-1" },
+                        { code: "20TD11A", name: "Environmental Science" },
+                        { code: "20TD12A", name: "Sahithya Sinchana-1/ Balake Kannada" }
+                    ],
+                    "2": [
+                        { code: "20TD21T", name: "Applied Science" },
+                        { code: "20TD22T", name: "Engineering Drawing-II" },
+                        { code: "20TD23T", name: "Production Technology-II" },
+                        { code: "20TD24T", name: "Basic Electrical & Electronics" },
+                        { code: "20TD21P", name: "Applied Science Lab" },
+                        { code: "20TD22P", name: "IT Skills Lab" },
+                        { code: "20TD23P", name: "Workshop-II" },
+                        { code: "20TD21A", name: "Sahithya Sinchana-1/ Balake Kannada" }
+                    ],
+                    "3": [
+                        { code: "20TD31T", name: "Production Technology - III(Milling)" },
+                        { code: "20TD32T", name: "E M & Som" },
+                        { code: "20TD33T", name: "Engineering Metrology" },
+                        { code: "20TD34T", name: "Material Technology - I" },
+                        { code: "20TD35T", name: "Engineering Drawing â€“ III (Assembly)" },
+                        { code: "20TD31P", name: "Cad Lab â€“ I (Solid Works)" },
+                        { code: "20TD32P", name: "Work Shop â€“ III" },
+                        { code: "20TD31A", name: "Koushalya Kaipidi" }
+                    ],
+                    "4": [
+                        { code: "20TD41T", name: "Production Technology â€“ IV (Grinding)" },
+                        { code: "20TD42T", name: "Press Tool Theory - I" },
+                        { code: "20TD43T", name: "Material Technology - II" },
+                        { code: "20TD44T", name: "Jigs & Fixtures Theory & Design" },
+                        { code: "20TD41P", name: "Cnc Programming & Operations Lab" },
+                        { code: "20TD42P", name: "Cad Lab â€“ II (Nx Optional)" },
+                        { code: "20TD43P", name: "Work Shop â€“ IV" },
+                        { code: "20TD41A", name: "Indian Constitution" }
+                    ],
+                    "5": [
+                        { code: "25TD51T", name: "Press Tool Theory-I" },
+                        { code: "25TD52T", name: "Mould Theory-I" },
+                        { code: "25TD53T", name: "EM&SOM" },
+                        { code: "25TD51P", name: "Press Tool Design LAB-I (Drafter)" },
+                        { code: "25TD52P", name: "Mould Design LAB-I (Drafter)" },
+                        { code: "25TD53P", name: "Manufacturing Practice-I" }
+                    ],
+                    "6": []
+                }
+            },
+            "C-24": {
+                "Mechatronics": {
+                    "1": [
+                        { code: "24MC11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "24MC12I", name: "FUNDAMENTAL OF ELECTRICAL ENGG" },
+                        { code: "24MC13P", name: "ENGINEERING DRAWING" },
+                        { code: "24MC14P", name: "COMMUNICATION SKILL-LAB" },
+                        { code: "24MC15P", name: "BASIC WORK SHOP" },
+                        { code: "24MC16A", name: "ENVIRONMENTAL SUSTAINABILITY" },
+                        { code: "24MC17A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" },
+                        { code: "24MC18A", name: "BODY MAIN CO-ORDINATION ACTIVITY" }
+                    ],
+                    "2": [
+                        { code: "24MC21I", name: "APPLIED SCIENCE" },
+                        { code: "24MC22I", name: "FUNDAMENTALS OF ELECTRONICS ENGINEERING" },
+                        { code: "24MC23P", name: "IT SKILLS LAB" },
+                        { code: "24MC24P", name: "MACHINE SHOP" },
+                        { code: "24MC25P", name: "CAD LAB" },
+                        { code: "24MC28A", name: "SAHITHYA SINCHANA â€“ II / BALAKE KANNADA - II" },
+                        { code: "24MC29A", name: "BODY MIND CO-ORDINATION ACTIVITY" }
+                    ],
+                    "3": [
+                        { code: "24MC31T", name: "Manufacturing Technology" },
+                        { code: "24MC32T", name: "Fluid Power Systems" },
+                        { code: "24MC33T", name: "Fundamentals of Mechatronics and Measurement System" },
+                        { code: "24MC34T", name: "Analog and Digital Circuits" },
+                        { code: "24MC31P", name: "Analog and Digital Circuits Lab" },
+                        { code: "24MC32P", name: "Fundamentals of Mechatronics and Measurement System Lab" },
+                        { code: "24MC33P", name: "Fluid Control System Lab" },
+                        { code: "24MC34P", name: "Machine and CNC Lab" },
+                        { code: "24MC31A", name: "Koushlya Kaipidi" }
+                    ],
+                    "4": [
+                        { code: "24MC41T", name: "Mechanics & Metrology" },
+                        { code: "24MC42T", name: "Power Electronics" },
+                        { code: "24MC43T", name: "Micro Controller" },
+                        { code: "24MC41P", name: "Micro Controller Lab" },
+                        { code: "24MC42P", name: "Power Electronics Lab" },
+                        { code: "24MC43P", name: "Material Testing Lab" },
+                        { code: "24MC44P", name: "PLC and HMI Lab" },
+                        { code: "24MC41A", name: "Indian Constitution" }
+                    ],
+                    "5": [],
+                    "6": []
+                },
+                "Electrical & Electronics": {
+                    "1": [
+                        { code: "24EE11I", name: "ENGINEERING MATHEMATICS" },
+                        { code: "24EE12I", name: "FUNDAMENTAL OF ELECTRICAL ENGG" },
+                        { code: "24EE13P", name: "Engineering Drawing" },
+                        { code: "24EE14P", name: "Basic Workshop" },
+                        { code: "24EE16A", name: "Environmental Sustainability" },
+                        { code: "24EE17A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" },
+                        { code: "24EE18A", name: "Body Mind Co-ordination Activity" }
+                    ],
+                    "2": [
+                        { code: "24EE21I", name: "APPLIED SCIENCE" },
+                        { code: "24EE22I", name: "FEEE-II" },
+                        { code: "24EE21P", name: "APPLIED SCIENCE LAB" },
+                        { code: "24EE22P", name: "IT SKILLS LAB" },
+                        { code: "24EE23P", name: "FEEE-II LAB" },
+                        { code: "24EE21A", name: "SAHITHYA SINCHANA-II/ BALAKE KANNADA-II" }
+                    ],
+                    "3": [
+                        { code: "24EE31I", name: "Electrical Engineering - Simulation" },
+                        { code: "24EE32I", name: "Digital Electronics" },
+                        { code: "24EE33I", name: "Electrical Panel Engineering with Smart Panel" },
+                        { code: "24EE34I", name: "Building Electrification and Automation" },
+                        { code: "24EE35P", name: "CAD - Electrical" },
+                        { code: "24EE36P", name: "Project Work" },
+                        { code: "24EE37A", name: "Koushalya Kaipidi" }
+                    ],
+                    "4": [
+                        { code: "24EE41I", name: "Fund of Power Electronics" },
+                        { code: "24EE42I", name: "Electrical Quality Measurements" },
+                        { code: "24EE43I", name: "Electric Motors & Transformers" },
+                        { code: "24EE44I", name: "Microcontroller & IOT Applications" },
+                        { code: "24EE45I", name: "Industrial Automation & Control" },
+                        { code: "24EE41P", name: "Fundamentals of Power Electronics" },
+                        { code: "24EE42P", name: "Electrical Quality Measurements" },
+                        { code: "24EE43P", name: "Electric Motors & Transformers" },
+                        { code: "24EE44P", name: "Microcontroller & IOT Applications" },
+                        { code: "24EE45P", name: "Industrial Automation & Control" }
+                    ],
+                    "5": [],
+                    "6": []
+                },
+                "AI & ML": {
+                    "1": [
+                        { code: "24AI11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "24AI12T", name: "COMPUTER FUNDAMENTALS AND INTRODUCTION TO C" },
+                        { code: "24AI13T", name: "ANALOG ELECTRONICS CIRCUIT" },
+                        { code: "24AI14P", name: "COMPUTER FUNDAMENTALS AND INTRODUCTION TO C LAB" },
+                        { code: "24AI15P", name: "ANALOG ELECTRONICS CIRCUT LAB" },
+                        { code: "24AI16A", name: "ENVIRONMENTAL SCIENCE" },
+                        { code: "24AI17A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" },
+                        { code: "24AI18A", name: "BODY MIND CO-ORDINATION ACTIVITY" }
+                    ],
+                    "2": [
+                        { code: "24AI21T", name: "APPLIED SCIENCE" },
+                        { code: "24AI22T", name: "DATA STRUCTURE AND ALGORITHM" },
+                        { code: "24AI23T", name: "DIGITAL ELECTRONICS" },
+                        { code: "24AI21P", name: "DATA STRUCTURE AND ALGORITHM LAB" },
+                        { code: "24AI22P", name: "DIGITAL ELECTRONICS LAB" },
+                        { code: "24AI23P", name: "ENGINEERING DESIGN" },
+                        { code: "24AI24P", name: "ENGLISH COMMUNICATION SKILLS" },
+                        { code: "24AI21A", name: "SAHITHYA SINCHANA â€“ II" }
+                    ],
+                    "3": [
+                        { code: "24AI31T", name: "Engineering mathematics for AI" },
+                        { code: "24AI32T", name: "Python programming" },
+                        { code: "24AI33T", name: "OOPs with C++" },
+                        { code: "24AI34T", name: "Introduction to microcontroller and ES" },
+                        { code: "24AI31P", name: "C ++ lab" },
+                        { code: "24AI32P", name: "Python Programming Lab" },
+                        { code: "24AI33P", name: "Microcontroller Lab" },
+                        { code: "24AI34P", name: "DBMS" },
+                        { code: "24AI35A", name: "Kausalya Kaipidi" }
+                    ],
+                    "4": [
+                        { code: "24AI41T", name: "Application development(java)" },
+                        { code: "24AI42T", name: "IoT" },
+                        { code: "24AI43T", name: "Data Science" },
+                        { code: "24AI44T", name: "Machine learning" },
+                        { code: "24AI41P", name: "Application development (java) lab" },
+                        { code: "24AI42P", name: "IoT lab" },
+                        { code: "24AI43P", name: "Data Science lab" },
+                        { code: "24AI44P", name: "Machine learning lab" },
+                        { code: "24AI45A", name: "Indian Constitution" }
+                    ],
+                    "5": [],
+                    "6": []
+                },
+                "Tool and Die Making": {
+                    "1": [
+                        { code: "24TD11T", name: "ENGINEERING MATHEMATICS" },
+                        { code: "24TD12T", name: "ENGINEERING DRAWING-I" },
+                        { code: "24TD13T", name: "PRODUCTION TECHNOLOGY-I" },
+                        { code: "24TD11P", name: "COMMUNICATION SKILL-LAB" },
+                        { code: "24TD12P", name: "WORKSHOP-1" },
+                        { code: "24TD11A", name: "ENVIRONMENTAL SCIENCE" },
+                        { code: "24TD12A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" }
+                    ],
+                    "2": [
+                        { code: "24TD21I", name: "APPLIED SCIENCE" },
+                        { code: "24TD22T", name: "PRODUCTION TECHNOLOGY-II" },
+                        { code: "24TD23P", name: "ENGINEERING DRAWING-II" },
+                        { code: "24TD24P", name: "BASIC ELECTRICAL & ELECTRONICS" },
+                        { code: "24TD22P", name: "IT SKILLS LAB" },
+                        { code: "24TD23P", name: "WORKSHOP-II" },
+                        { code: "24TD21A", name: "SAHITHYA SINCHANA-1/ BALAKE KANNADA" }
+                    ],
+                    "3": [
+                        { code: "25TD31T", name: "CNC - Manufacturing Technology" },
+                        { code: "25TD32T", name: "Engg. Drawing-III" },
+                        { code: "25TD33T", name: "Engg. Mathematics" },
+                        { code: "25TD31P", name: "CAD LAB-I (IPC)" },
+                        { code: "25TD32P", name: "Engg. Metrology LAB (IPC)" },
+                        { code: "25TD33P", name: "Workshop Practice-III" }
+                    ],
+                    "4": [],
+                    "5": [],
+                    "6": []
+                }
+            },
+            "C-25": {
+                "Tool and Die Making": {
+                    "1": [
+                        { code: "25SC01T", name: "Engineering Mathematics-I" },
+                        { code: "25SC02T", name: "Engineering Physics" },
+                        { code: "25SC03P", name: "Engineering Physics Lab" },
+                        { code: "25ME01T", name: "Engineering Mechanics" }
+                    ],
+                    "2": [
+                        { code: "25SC11T", name: "Engineering Mathematics-II" },
+                        { code: "25SC12T", name: "Engineering Chemistry" },
+                        { code: "25SC13P", name: "Engineering Chemistry Lab" },
+                        { code: "25ME11T", name: "Basic Electrical Engineering" }
+                    ],
+                    // Additional semesters would follow the same pattern
+                },
+                "Mechatronics": {
+                    "1": [
+                        { code: "25SC01T", name: "Engineering Mathematics-I" },
+                        { code: "25SC02T", name: "Engineering Physics" },
+                        { code: "25SC03P", name: "Engineering Physics Lab" },
+                        { code: "25MT01T", name: "Introduction to Mechatronics" }
+                    ],
+                    "2": [
+                        { code: "25SC11T", name: "Engineering Mathematics-II" },
+                        { code: "25SC12T", name: "Engineering Chemistry" },
+                        { code: "25SC13P", name: "Engineering Chemistry Lab" },
+                        { code: "25MT11T", name: "Basic Electronics" }
+                    ],
+                    // Additional semesters would follow the same pattern
+                }
+            }
+        };
+        document.addEventListener('DOMContentLoaded', function () {
+            const schemeSelect = document.getElementById('scheme');
+            const courseSelect = document.getElementById('course');
+            const semesterSelect = document.getElementById('semester');
+            const subjectsContainer = document.getElementById('subjectsContainer');
+            const subjectsList = document.getElementById('subjectsList');
+            const examCheckboxes = document.querySelectorAll('.exam-type input[type="checkbox"]');
+            const selectAllBtn = document.getElementById('selectAllBtn');
+            const removeAllBtn = document.getElementById('removeAllBtn');
+            function updateSubjects() {
+                const scheme = schemeSelect.value;
+                const course = courseSelect.value;
+                const semester = semesterSelect.value;
+                if (!scheme || !course || !semester ||
+                    scheme === "Select scheme" ||
+                    course === "Select your course" ||
+                    semester === "Select semester") {
+                    subjectsContainer.style.display = 'none';
+                    return;
+                }
+                const selectedExamTypes = Array.from(examCheckboxes).filter(cb => cb.checked);
+                if (selectedExamTypes.length === 0) {
+                    subjectsContainer.style.display = 'none';
+                    return;
+                }
+                subjectsContainer.style.display = 'block';
+                subjectsList.innerHTML = '';
+                let subjectsToDisplay = [];
+                if (selectedExamTypes.some(cb => cb.id === 'regular')) {
+                    subjectsToDisplay = [{ semester: semester, subjects: [...(subjectsData[scheme]?.[course]?.[semester] || [])] }];
+                } else if (selectedExamTypes.some(cb => cb.id === 'supplementary')) {
+                    const currentSem = parseInt(semester);
+                    for (let semNum = 1; semNum < currentSem; semNum++) {
+                        const semKey = semNum.toString();
+                        const semSubjects = subjectsData[scheme]?.[course]?.[semKey] || [];
+                        if (semSubjects.length > 0) {
+                            subjectsToDisplay.push({ semester: semKey, subjects: semSubjects });
+                        }
+                    }
+                } else if (selectedExamTypes.some(cb => cb.id === 'both')) {
+                    const currentSem = parseInt(semester);
+                    for (let semNum = 1; semNum <= currentSem; semNum++) {
+                        const semKey = semNum.toString();
+                        const semSubjects = subjectsData[scheme]?.[course]?.[semKey] || [];
+                        if (semSubjects.length > 0) {
+                            subjectsToDisplay.push({ semester: semKey, subjects: semSubjects });
+                        }
+                    }
+                }
+                if (subjectsToDisplay.length > 0) {
+                    subjectsToDisplay.forEach(group => {
+                        const semesterGroup = document.createElement('div');
+                        semesterGroup.className = 'semester-group';
+                        const semesterHeader = document.createElement('div');
+                        semesterHeader.className = 'semester-header';
+                        semesterHeader.textContent = `Semester ${group.semester}`;
+                        semesterGroup.appendChild(semesterHeader);
+                        const subjectList = document.createElement('div');
+                        subjectList.className = 'subjects-list';
+                        group.subjects.forEach(subject => {
+                            const subjectItem = document.createElement('div');
+                            subjectItem.className = 'subject-item';
+                            // Check if we should auto-select this subject
+                            const shouldAutoSelect = selectedExamTypes.some(cb => cb.id === 'regular' || cb.id === 'both');
+                            subjectItem.innerHTML = `
+                                <input type="checkbox" id="${subject.code}" name="subjects" value="${subject.code}" ${shouldAutoSelect ? 'checked' : ''}>
+                                <label for="${subject.code}">${subject.code} - ${subject.name}</label>
+                            `;
+                            subjectList.appendChild(subjectItem);
+                        });
+                        semesterGroup.appendChild(subjectList);
+                        subjectsList.appendChild(semesterGroup);
+                    });
+                } else {
+                    subjectsList.innerHTML = '<p>No subjects available for this selection.</p>';
+                }
+            }
+            schemeSelect.addEventListener('change', updateSubjects);
+            courseSelect.addEventListener('change', updateSubjects);
+            semesterSelect.addEventListener('change', updateSubjects);
+            examCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    document.getElementById('examType-error').style.display = 'none';
+                    if (this.checked && this.id === 'both') {
+                        document.getElementById('regular').checked = false;
+                        document.getElementById('supplementary').checked = false;
+                    } else if (this.checked && (this.id === 'regular' || this.id === 'supplementary')) {
+                        document.getElementById('both').checked = false;
+                    }
+                    updateSubjects();
+                });
+            });
+            selectAllBtn.addEventListener('click', function () {
+                const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
+                subjectCheckboxes.forEach(cb => cb.checked = true);
+            });
+            removeAllBtn.addEventListener('click', function () {
+                const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
+                subjectCheckboxes.forEach(cb => cb.checked = false);
+            });
+            // Setup for each upload section
+            setupUploadSection('doc');
+            setupUploadSection('photo');
+            setupUploadSection('receipt');
+            function setupUploadSection(type) {
+                const uploadBox = document.getElementById(`${type}UploadBox`);
+                const fileInput = document.getElementById(`${type}Input`);
+                const previewImg = document.getElementById(`${type}Preview`);
+                const removeBtn = document.getElementById(`${type}RemoveBtn`);
+                const browseBtn = uploadBox.querySelector('.browse-btn');
+                uploadBox.addEventListener('click', function (e) {
+                    if (e.target !== browseBtn && !browseBtn.contains(e.target) &&
+                        e.target !== removeBtn && !removeBtn.contains(e.target)) {
+                        fileInput.click();
+                    }
+                });
+                browseBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    fileInput.click();
+                });
+                if (type === 'photo') {
+                    const cameraBtn = uploadBox.querySelector('.camera-btn');
+                    cameraBtn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        alert('Camera functionality would be implemented here. This requires HTTPS and camera permissions.');
+                    });
+                }
+                fileInput.addEventListener('change', function () {
+                    handleFileSelection(this, previewImg, uploadBox);
+                    document.getElementById(`${type}-error`).style.display = 'none';
+                });
+                removeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    resetUploadBox(previewImg, uploadBox, fileInput);
+                });
+                uploadBox.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    uploadBox.classList.add('dragover');
+                });
+                uploadBox.addEventListener('dragleave', function () {
+                    uploadBox.classList.remove('dragover');
+                });
+                uploadBox.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    uploadBox.classList.remove('dragover');
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                        const file = e.dataTransfer.files[0];
+                        handleFileSelection({ files: [file] }, previewImg, uploadBox);
+                        document.getElementById(`${type}-error`).style.display = 'none';
+                    }
+                });
+            }
+            function handleFileSelection(input, previewImg, uploadBox) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    if (!file.type.match('image.*') && !file.type.match('application/pdf')) {
+                        alert('Please upload an image file (JPEG, PNG) or PDF.');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImg.src = e.target.result;
+                        uploadBox.classList.add('has-image');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            function resetUploadBox(previewImg, uploadBox, fileInput) {
+                previewImg.src = '';
+                uploadBox.classList.remove('has-image');
+                fileInput.value = '';
+            }
+            // Full name validation (only letters and spaces)
+            const fullnameInput = document.getElementById('fullname');
+            fullnameInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+            });
+            // Register number validation (only digits)
+            const regnumberInput = document.getElementById('regnumber');
+            regnumberInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            // Phone number validation (only digits, max 10)
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+            // Form validation on submit
+            document.getElementById('submitBtn').addEventListener('click', async function (e) {
+                e.preventDefault();
+                let isValid = true;
+                // Validate full name
+                const fullname = document.getElementById('fullname').value;
+                if (!fullname || !/^[A-Za-z\s]+$/.test(fullname)) {
+                    document.getElementById('fullname-error').style.display = 'block';
+                    document.getElementById('fullname').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('fullname-error').style.display = 'none';
+                    document.getElementById('fullname').classList.remove('error');
+                }
+                // Validate register number
+                const regnumber = document.getElementById('regnumber').value;
+                if (!regnumber || !/^\d+$/.test(regnumber)) {
+                    document.getElementById('regnumber-error').style.display = 'block';
+                    document.getElementById('regnumber').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('regnumber-error').style.display = 'none';
+                    document.getElementById('regnumber').classList.remove('error');
+                }
+                // Validate scheme
+                const scheme = document.getElementById('scheme').value;
+                if (!scheme || scheme === "Select scheme") {
+                    document.getElementById('scheme-error').style.display = 'block';
+                    document.getElementById('scheme').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('scheme-error').style.display = 'none';
+                    document.getElementById('scheme').classList.remove('error');
+                }
+                // Validate course
+                const course = document.getElementById('course').value;
+                if (!course || course === "Select your course") {
+                    document.getElementById('course-error').style.display = 'block';
+                    document.getElementById('course').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('course-error').style.display = 'none';
+                    document.getElementById('course').classList.remove('error');
+                }
+                // Validate semester
+                const semester = document.getElementById('semester').value;
+                if (!semester || semester === "Select semester") {
+                    document.getElementById('semester-error').style.display = 'block';
+                    document.getElementById('semester').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('semester-error').style.display = 'none';
+                    document.getElementById('semester').classList.remove('error');
+                }
+                // Validate subjects (only if subjects container is visible)
+                if (subjectsContainer.style.display === 'block') {
+                    const selectedSubjects = document.querySelectorAll('input[name="subjects"]:checked');
+                    if (selectedSubjects.length === 0) {
+                        document.getElementById('subjects-error').style.display = 'block';
+                        isValid = false;
+                    } else {
+                        document.getElementById('subjects-error').style.display = 'none';
+                    }
+                }
+                // Validate phone
+                const phone = document.getElementById('phone').value;
+                if (!phone || !/^\d{10}$/.test(phone)) {
+                    document.getElementById('phone-error').style.display = 'block';
+                    document.getElementById('phone').classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById('phone-error').style.display = 'none';
+                    document.getElementById('phone').classList.remove('error');
+                }
+                // Validate exam type
+                const examTypes = document.querySelectorAll('input[name="examType"]:checked');
+                if (examTypes.length === 0) {
+                    document.getElementById('examType-error').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('examType-error').style.display = 'none';
+                }
+                // Validate file uploads
+                const docUpload = document.getElementById('docInput').files.length;
+                if (docUpload === 0) {
+                    document.getElementById('doc-error').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('doc-error').style.display = 'none';
+                }
+                const receiptUpload = document.getElementById('receiptInput').files.length;
+                if (receiptUpload === 0) {
+                    document.getElementById('receipt-error').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('receipt-error').style.display = 'none';
+                }
+                const photoUpload = document.getElementById('photoInput').files.length;
+                if (photoUpload === 0) {
+                    document.getElementById('photo-error').style.display = 'block';
+                    isValid = false;
+                } else {
+                    document.getElementById('photo-error').style.display = 'none';
+                }
+                // If all valid, submit the form
+                if (isValid) {
+                    // Show success message
+                    document.getElementById('successMessage').style.display = 'block';
+                    // Get form data
+                    const formData = {
+                        fullname: document.getElementById('fullname').value,
+                        regnumber: document.getElementById('regnumber').value,
+                        scheme: document.getElementById('scheme').value,
+                        course: document.getElementById('course').value,
+                        semester: document.getElementById('semester').value,
+                        phone: document.getElementById('phone').value,
+                        examType: Array.from(examTypes).map(cb => cb.id),
+                        subjects: Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(cb => cb.value),
+                        docUrl: document.getElementById('docPreview').src,
+                        receiptUrl: document.getElementById('receiptPreview').src,
+                        photoUrl: document.getElementById('photoPreview').src,
+                        submittedAt: new Date().toISOString()
+                    };
+                    // Store form data in localStorage for acknowledgment page
+                    localStorage.setItem('formData', JSON.stringify(formData));
+                    // Save to Firebase Firestore
+                    try {
+                        const docRef = await addDoc(collection(db, 'applications'), {
+                            username: formData.fullname,
+                            regNumber: formData.regnumber,
+                            scheme: formData.scheme,
+                            course: formData.course,
+                            semester: formData.semester,
+                            phone: formData.phone,
+                            examType: formData.examType,
+                            subjects: formData.subjects,
+                            docUrl: formData.docUrl,
+                            receiptUrl: formData.receiptUrl,
+                            photoUrl: formData.photoUrl,
+                            status: 'pending',
+                            submittedAt: serverTimestamp(),
+                            avatar: null
+                        });
+                        console.log("Document written with ID: ", docRef.id);
+                        // Show acknowledgment page after 2 seconds
+                        setTimeout(function () {
+                            showAcknowledgment();
+                        }, 2000);
+                    } catch (error) {
+                        console.error("Error adding document: ", error);
+                        alert("Failed to save data to server. Please try again.");
+                    }
+                }
+            });
+            // Handle back navigation
+            window.addEventListener('popstate', function (event) {
+                if (document.body.classList.contains('hall-ticket-active')) {
+                    goBackToForm();
+                }
+            });
+        });
+        // Functions for showing acknowledgment
+        function showAcknowledgment() {
+            // Get form data from localStorage
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (!formData) {
+                alert('No application data found. Please start over.');
+                return;
+            }
+            // Populate acknowledgment page with form data
+            document.getElementById('ackStudentName').textContent = formData.fullname;
+            document.getElementById('ackRegNumber').textContent = formData.regnumber;
+            document.getElementById('ackCourse').textContent = formData.course;
+            document.getElementById('ackSemester').textContent = formData.semester;
+            document.getElementById('ackPhone').textContent = formData.phone;
+            // Set images
+            document.getElementById('ackPhoto').src = formData.photoUrl;
+            document.getElementById('ackDoc').src = formData.docUrl;
+            document.getElementById('ackReceipt').src = formData.receiptUrl;
+            // Show acknowledgment page
+            document.getElementById('mainForm').style.display = 'none';
+            document.getElementById('acknowledgmentPage').style.display = 'block';
+        }
+        function goBackToForm() {
+            // Remove hall ticket active class
+            document.body.classList.remove('hall-ticket-active');
+            document.getElementById('hallTicketContainer').style.display = 'none';
+            // Show main form
+            document.getElementById('mainForm').style.display = 'block';
+            document.getElementById('acknowledgmentPage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
