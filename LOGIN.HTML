@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTTC Login & Signup</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Page Setup */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background-color: #111;
+    }
+
+    /* Static Background Image with gentle zoom */
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=80")
+        no-repeat center center/cover;
+      filter: brightness(0.5);
+      z-index: -1;
+      animation: zoom 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes zoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.03); }
+    }
+
+    /* Glass Container */
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      width: 330px;
+      transition: 0.3s ease;
+    }
+
+    h2 {
+      color: white;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #ddd;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      color: #111;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    a {
+      color: #eee;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p {
+      color: white;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* Hide extra section initially */
+    #signupSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <!-- Login Section -->
+  <div class="container" id="loginSection">
+    <h2>Welcome Back</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <a href="#" id="forgotPassword">Forgot Password?</a>
+      <button type="submit">Login</button>
+      <p>Don’t have an account? <a href="#" id="showSignup">Sign up</a></p>
+    </form>
+  </div>
+
+  <!-- Signup Section -->
+  <div class="container" id="signupSection">
+    <h2>Create Account</h2>
+    <form id="signupForm">
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+    </form>
+  </div>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    // ✅ Correct Firebase Config (check the storage bucket)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnMpbcaQs60di4I4RTnvDOW7rs1Ctlevg",
+      authDomain: "gttc-login.firebaseapp.com",
+      projectId: "gttc-login",
+      storageBucket: "gttc-login.appspot.com", // ← FIXED (.appspot.com)
+      messagingSenderId: "956707559677",
+      appId: "1:956707559677:web:d3b05b00f6204654e54694",
+      measurementId: "G-TG9PF6XJ85"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginSection = document.getElementById("loginSection");
+    const signupSection = document.getElementById("signupSection");
+
+    // Switch between login/signup
+    document.getElementById("showSignup").addEventListener("click", (e) => {
+      e.preventDefault();
+      loginSection.style.display = "none";
+      signupSection.style.display = "block";
+    });
+
+    document.getElementById("showLogin").addEventListener("click", (e) => {
+      e.preventDefault();
+      signupSection.style.display = "none";
+      loginSection.style.display = "block";
+    });
+
+    // Signup logic
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirm = document.getElementById("confirmPassword").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("✅ Account created successfully! Please login.");
+        signupSection.style.display = "none";
+        loginSection.style.display = "block";
+      } catch (error) {
+        alert("Signup failed: " + error.message);
+      }
+    });
+
+    // Login logic
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("✅ Login successful!");
+        // You can redirect to another page here, e.g.:
+        // window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+
+    // Forgot password
+    document.getElementById("forgotPassword").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const email = prompt("Enter your registered email to reset password:");
+      if (!email) return;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("📧 Password reset link sent to your email!");
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
