@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTTC Magadi - Exam Hall Ticket System</title>
+    <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ======================
@@ -15,6 +16,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
             margin: 0;
             background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
@@ -23,6 +25,7 @@
             padding: 20px;
             min-height: 100vh;
         }
+
         /* ======================
    Top Header
 ====================== */
@@ -37,48 +40,59 @@
             border-radius: 12px 12px 0 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+
         .logo {
             text-align: center;
             margin-bottom: 10px;
         }
+
         .logo img {
             width: 90px;
             border-radius: 50%;
             transition: transform 0.3s ease;
         }
+
         .logo img:hover {
             transform: scale(1.05);
         }
+
         .top-left {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         .top-left img {
             height: 60px;
             transition: transform 0.3s ease;
         }
+
         .top-left img:hover {
             transform: scale(1.05);
         }
+
         .top-left-text h1 {
             margin: 0;
             font-size: 24px;
             color: #1c2b39;
             font-weight: 700;
         }
+
         .top-left-text p {
             margin: 0;
             font-size: 14px;
             color: #666;
         }
+
         .top-right img {
             height: 60px;
             transition: transform 0.3s ease;
         }
+
         .top-right img:hover {
             transform: scale(1.05);
         }
+
         /* ======================
    Blue Bar
 ====================== */
@@ -93,44 +107,52 @@
             border-radius: 0 0 12px 12px;
             box-shadow: 0 4px 12px rgba(0, 106, 223, 0.2);
         }
+
         .blue-left {
             display: flex;
             align-items: center;
             gap: 15px;
         }
+
         .blue-left-text h2 {
             margin: 0;
             font-size: 26px;
             font-weight: 700;
         }
+
         .blue-left-text p {
             margin: 0;
             font-size: 18px;
         }
+
         .blue-left-text p span {
             font-size: 22px;
             font-weight: bold;
         }
+
         .blue-right {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-top: 10px;
         }
+
         .signout-btn {
             background-color: transparent;
             border: 1px solid white;
             color: white;
-            padding: 10px 18px;
+            padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
         }
+
         .signout-btn:hover {
             background-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
+
         /* ======================
    Container / Form
 ====================== */
@@ -144,6 +166,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .container::before {
             content: '';
             position: absolute;
@@ -153,6 +176,7 @@
             height: 5px;
             background: linear-gradient(90deg, #3498db, #2ecc71);
         }
+
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -160,6 +184,7 @@
             border-bottom: 2px solid #2c3e50;
             position: relative;
         }
+
         header::after {
             content: '';
             position: absolute;
@@ -171,12 +196,14 @@
             background: linear-gradient(90deg, #3498db, #2ecc71);
             border-radius: 3px;
         }
+
         h1 {
             color: #2c3e50;
             font-size: 32px;
             margin-bottom: 10px;
             font-weight: 700;
         }
+
         h2 {
             color: #2c3e50;
             font-size: 24px;
@@ -185,11 +212,13 @@
             border-bottom: 2px solid #eee;
             font-weight: 600;
         }
+
         h3 {
             color: #2c3e50;
             font-size: 18px;
             margin: 20px 0 15px;
         }
+
         .institution {
             background: linear-gradient(90deg, #2c3e50 0%, #4a6580 100%);
             color: white;
@@ -199,12 +228,14 @@
             text-align: center;
             box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
         }
+
         .institution h2 {
             color: white;
             border: none;
             margin: 0;
             padding: 0;
         }
+
         .form-section {
             margin-bottom: 30px;
             padding: 20px;
@@ -212,10 +243,12 @@
             background: #f9fafb;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
+
         .form-group {
             margin-bottom: 18px;
             position: relative;
         }
+
         label {
             display: block;
             font-weight: 600;
@@ -223,6 +256,7 @@
             color: #2c3e50;
             font-size: 15px;
         }
+
         input[type="text"],
         select {
             width: 100%;
@@ -233,21 +267,25 @@
             transition: all 0.3s ease;
             background: white;
         }
+
         input[type="text"]:focus,
         select:focus {
             outline: none;
             border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
+
         input[type="text"]::placeholder {
             color: #aaa;
         }
+
         .exam-type {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin: 15px 0;
         }
+
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -256,23 +294,28 @@
             border-radius: 8px;
             transition: background 0.3s ease;
         }
+
         .checkbox-group:hover {
             background: rgba(52, 152, 219, 0.1);
         }
+
         .checkbox-group input[type="checkbox"] {
             width: 18px;
             height: 18px;
             accent-color: #3498db;
         }
+
         .checkbox-group label {
             margin: 0;
             font-weight: 500;
             cursor: pointer;
         }
+
         .required::after {
             content: " *";
             color: #e74c3c;
         }
+
         /* Validation error styles */
         .error-message {
             color: #e74c3c;
@@ -281,11 +324,13 @@
             display: none;
             font-weight: 500;
         }
+
         input.error,
         select.error {
             border-color: #e74c3c;
             box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
         }
+
         /* Subjects selection */
         .subjects-container {
             display: none;
@@ -295,6 +340,7 @@
             border-radius: 8px;
             border: 1px solid #e9ecef;
         }
+
         .subjects-header {
             display: flex;
             justify-content: space-between;
@@ -303,10 +349,12 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #ddd;
         }
+
         .subjects-actions {
             display: flex;
             gap: 10px;
         }
+
         .action-btn {
             background-color: #3498db;
             color: white;
@@ -318,15 +366,19 @@
             font-weight: 500;
             transition: background-color 0.3s ease;
         }
+
         .action-btn:hover {
             background-color: #2980b9;
         }
+
         .action-btn.remove-all {
             background-color: #e74c3c;
         }
+
         .action-btn.remove-all:hover {
             background-color: #c0392b;
         }
+
         .semester-group {
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -334,6 +386,7 @@
             padding: 10px;
             background-color: #f0f0f0;
         }
+
         .semester-header {
             font-weight: 600;
             color: #2c3e50;
@@ -343,12 +396,14 @@
             border-radius: 6px;
             display: inline-block;
         }
+
         .subjects-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 10px;
             margin-top: 10px;
         }
+
         .subject-item {
             display: flex;
             align-items: center;
@@ -357,9 +412,11 @@
             border-radius: 6px;
             border: 1px solid #ddd;
         }
+
         .subject-item input {
             margin-right: 10px;
         }
+
         /* ======================
    Upload Section - UPDATED
 ====================== */
@@ -368,6 +425,7 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #eee;
         }
+
         .section-title {
             font-size: 18px;
             font-weight: 600;
@@ -376,11 +434,13 @@
             display: flex;
             align-items: center;
         }
+
         .section-title i {
             margin-right: 10px;
             color: #3498db;
             font-size: 20px;
         }
+
         .upload-box {
             border: 2px dashed #bdc3c7;
             border-radius: 12px;
@@ -397,26 +457,31 @@
             overflow: hidden;
             background: #fafbfc;
         }
+
         .upload-box:hover {
             border-color: #3498db;
             background-color: #f8f9fa;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
+
         .upload-box.dragover {
             border-color: #2ecc71;
             background-color: rgba(46, 204, 113, 0.05);
         }
+
         .upload-icon {
             font-size: 40px;
             color: #3498db;
             margin-bottom: 15px;
         }
+
         .upload-text {
             color: #7f8c8d;
             margin-bottom: 15px;
             font-size: 16px;
         }
+
         .browse-btn {
             background: #3498db;
             color: white;
@@ -427,10 +492,12 @@
             transition: all 0.3s ease;
             display: inline-block;
         }
+
         .browse-btn:hover {
             background: #2980b9;
             transform: translateY(-2px);
         }
+
         .camera-btn {
             background: #2ecc71;
             color: white;
@@ -442,13 +509,16 @@
             display: inline-block;
             margin-top: 10px;
         }
+
         .camera-btn:hover {
             background: #27ae60;
             transform: translateY(-2px);
         }
+
         .file-input {
             display: none;
         }
+
         .submit-btn {
             display: block;
             width: 100%;
@@ -466,6 +536,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .submit-btn::before {
             content: '';
             position: absolute;
@@ -476,16 +547,20 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
+
         .submit-btn:hover::before {
             left: 100%;
         }
+
         .submit-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
         }
+
         .submit-btn:active {
             transform: translateY(0);
         }
+
         .image-preview {
             width: 100%;
             height: 100%;
@@ -497,18 +572,22 @@
             z-index: 1;
             background: white;
         }
+
         .upload-content {
             position: relative;
             z-index: 2;
             transition: opacity 0.3s ease;
         }
+
         .has-image .upload-content {
             opacity: 0;
             pointer-events: none;
         }
+
         .has-image .image-preview {
             display: block;
         }
+
         .remove-btn {
             position: absolute;
             top: 10px;
@@ -527,14 +606,17 @@
             opacity: 0;
             transform: scale(0.8);
         }
+
         .has-image .remove-btn {
             opacity: 1;
             transform: scale(1);
         }
+
         .remove-btn:hover {
             background: #c0392b;
             transform: scale(1.1);
         }
+
         /* Success message */
         .success-message {
             display: none;
@@ -547,6 +629,7 @@
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
         }
+
         /* ======================
    Responsive
 ====================== */
@@ -556,274 +639,83 @@
                 text-align: center;
                 padding: 15px;
             }
+
             .blue-bar {
                 flex-direction: column;
                 text-align: center;
                 padding: 20px 15px;
             }
-            .blue-left, .blue-right {
+
+            .blue-left,
+            .blue-right {
                 justify-content: center;
             }
+
             .container {
                 padding: 20px;
             }
+
             h1 {
                 font-size: 26px;
             }
+
             .upload-box {
                 padding: 15px;
                 min-height: 150px;
             }
+
             .form-section {
                 padding: 15px;
             }
+
             .subjects-list {
                 grid-template-columns: 1fr;
             }
         }
+
         @media (max-width: 480px) {
             .top-left-text h1 {
                 font-size: 20px;
             }
+
             .blue-left-text h2 {
                 font-size: 22px;
             }
+
             .blue-left-text p {
                 font-size: 16px;
             }
+
             h1 {
                 font-size: 22px;
             }
+
             h2 {
                 font-size: 20px;
             }
         }
-        /* Acknowledgment Page - Updated Design */
-        .acknowledgment-page {
-            max-width: 850px;
-            margin: 30px auto;
-            background: white;
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #ddd;
-            margin-top: 20px;
-        }
-        .acknowledgment-page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-        }
-        .acknowledgment-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-        .acknowledgment-header h2 {
-            font-size: 18px;
-            margin: 0;
-            color: #333;
-            font-weight: 600;
-        }
-        .acknowledgment-header .id-card {
-            background: #f0f0f0;
-            padding: 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 10px 0;
-            font-size: 12px;
-            color: #333;
-            text-align: center;
-            width: 100px;
-            border: 1px solid #ddd;
-        }
-        .acknowledgment-body {
-            margin-bottom: 20px;
-        }
-        .acknowledgment-success {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-        .acknowledgment-success i {
-            font-size: 50px;
-            color: #2ecc71;
-            margin-bottom: 10px;
-        }
-        .acknowledgment-success h3 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        .acknowledgment-success p {
-            margin: 0;
-            color: #666;
-            font-size: 14px;
-        }
-        .student-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            padding: 8px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .info-label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        .info-value {
-            color: #666;
-            font-size: 14px;
-        }
-        .submitted-documents {
-            margin-bottom: 20px;
-        }
-        .submitted-documents h3 {
-            margin-bottom: 10px;
-            color: #2c3e50;
-            font-size: 16px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .document-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .document-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-        .document-item img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-        .document-label {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #666;
-        }
-        .important-notes {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #fffbe6;
-            border: 1px solid #ffe58a;
-            border-radius: 8px;
-        }
-        .important-notes h4 {
-            margin-bottom: 10px;
-            color: #2c3e50;
-            font-size: 16px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .important-notes ul {
-            list-style: none;
-            margin-left: 0;
-            padding: 0;
-        }
-        .important-notes li {
-            margin-bottom: 5px;
-            font-size: 12px;
-            color: #666;
-            position: relative;
-            padding-left: 20px;
-        }
-        .important-notes li:before {
-            content: "â€¢";
-            color: #3498db;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            font-size: 16px;
-        }
-        .download-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        .download-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        .download-button:hover::before {
-            left: 100%;
-        }
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-        }
-        .download-button:active {
-            transform: translateY(0);
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #999;
-            font-size: 12px;
-        }
     </style>
 </head>
+
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-left">
-            <img src="images/Gttc_Magadi_Logo.jpg" alt="GTTC Logo">
+            <img src="Main Page Image/Gttc_Magadi_Logo.jpg" alt="GTTC Logo">
             <div class="top-left-text">
                 <h1>Government Tool Room & Training Centre <span>Magadi - 36</span></h1>
                 <p>Magadi - Exam Hall Ticket Generator</p>
             </div>
         </div>
         <div class="top-right">
-            <img src="images/Karnataka_logo.png" alt="Karnataka Logo">
+            <img src="Main Page Image/Karnataka_logo.png" alt="Karnataka Logo">
         </div>
     </div>
     <!-- Blue Bar -->
     <div class="blue-bar">
         <div class="blue-left">
             <div class="logo">
-                <img src="images/Gttc_Magadi_Logo.jpg" alt="College Logo">
+                <img src="Main Page Image/Gttc_Magadi_Logo.jpg" alt="College Logo">
             </div>
             <div class="blue-left-text">
                 <h2>GTTC MAGADI</h2>
@@ -831,7 +723,7 @@
             </div>
         </div>
         <div class="blue-right">
-            <span id="usernameDisplay">ðŸ‘¤ Guest</span>
+            <span id="usernameDisplay" style="font-size: 25px;"><span style="font-size: 25px;">💇‍♂️ </span>Guest</span>
             <button class="signout-btn">Sign Out</button>
         </div>
     </div>
@@ -1004,97 +896,7 @@
         </div>
         <button class="submit-btn" id="submitBtn">Submit Documents</button>
     </div>
-    <!-- Acknowledgment Page -->
-    <div class="container acknowledgment-page" id="acknowledgmentPage" style="display:none;">
-        <div class="acknowledgment-header">
-            <h2>GOVERNMENT TOOL ROOM & TRAINING CENTRE</h2>
-            <p>MAGADI</p>
-            <div class="id-card">STU_36<br>Date: 10/12/2024</div>
-        </div>
-        <div class="acknowledgment-body">
-            <div class="acknowledgment-success">
-                <i class="fas fa-check-circle"></i>
-                <h3>Application Submitted Successfully!</h3>
-                <p>Your exam registration application has been received and is being processed.</p>
-            </div>
-            <div class="student-info">
-                <div class="info-item">
-                    <div class="info-label">Student Name:</div>
-                    <div id="ackStudentName" class="info-value">Rajeshk</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Register No.:</div>
-                    <div id="ackRegNumber" class="info-value">8360123</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Course:</div>
-                    <div id="ackCourse" class="info-value">AI & ML</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Semester:</div>
-                    <div id="ackSemester" class="info-value">5</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">Phone Number:</div>
-                    <div id="ackPhone" class="info-value">6360596768</div>
-                </div>
-            </div>
-            <div class="submitted-documents">
-                <h3>Submitted Documents:</h3>
-                <div class="document-grid">
-                    <div class="document-item">
-                        <img id="ackPhoto" src="" alt="Student Photo">
-                        <div class="document-label">Student Photo</div>
-                    </div>
-                    <div class="document-item">
-                        <img id="ackDoc" src="" alt="NOC Document">
-                        <div class="document-label">NOC</div>
-                    </div>
-                    <div class="document-item">
-                        <img id="ackReceipt" src="" alt="Fees Receipt">
-                        <div class="document-label">Fees Receipt</div>
-                    </div>
-                </div>
-            </div>
-            <div class="important-notes">
-                <h4>Important Notes:</h4>
-                <ul>
-                    <li>Your documents have been submitted for verification</li>
-                    <li>Hall ticket will be generated after document verification</li>
-                    <li>Keep this acknowledgment for your records</li>
-                    <li>Contact the exam office for any queries</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer">
-            Government Tool Room & Training Centre, Magadi
-        </div>
-        <button class="download-button" onclick="window.print()">
-            <i class="fas fa-download"></i> Download Acknowledgment & Continue
-        </button>
-    </div>
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import Firebase functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCm_LTpJiyZyCsGTnYweQWDJRrgdk9t1Qk",
-            authDomain: "exam-hall-ticket.firebaseapp.com",
-            projectId: "exam-hall-ticket",
-            storageBucket: "exam-hall-ticket.appspot.com", // Fixed from .firebasestorage.app
-            messagingSenderId: "810080982783",
-            appId: "1:810080982783:web:c52f53a22a6a4bd9f05eca"
-        };
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
-        // Complete subject data structure
+    <script>
         const subjectsData = {
             "C-20": {
                 "Mechatronics": {
@@ -1603,6 +1405,7 @@
                 const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
                 subjectCheckboxes.forEach(cb => cb.checked = false);
             });
+
             // Setup for each upload section
             setupUploadSection('doc');
             setupUploadSection('photo');
@@ -1854,36 +1657,7 @@
                 }
             });
         });
-        // Functions for showing acknowledgment
-        function showAcknowledgment() {
-            // Get form data from localStorage
-            const formData = JSON.parse(localStorage.getItem('formData'));
-            if (!formData) {
-                alert('No application data found. Please start over.');
-                return;
-            }
-            // Populate acknowledgment page with form data
-            document.getElementById('ackStudentName').textContent = formData.fullname;
-            document.getElementById('ackRegNumber').textContent = formData.regnumber;
-            document.getElementById('ackCourse').textContent = formData.course;
-            document.getElementById('ackSemester').textContent = formData.semester;
-            document.getElementById('ackPhone').textContent = formData.phone;
-            // Set images
-            document.getElementById('ackPhoto').src = formData.photoUrl;
-            document.getElementById('ackDoc').src = formData.docUrl;
-            document.getElementById('ackReceipt').src = formData.receiptUrl;
-            // Show acknowledgment page
-            document.getElementById('mainForm').style.display = 'none';
-            document.getElementById('acknowledgmentPage').style.display = 'block';
-        }
-        function goBackToForm() {
-            // Remove hall ticket active class
-            document.body.classList.remove('hall-ticket-active');
-            document.getElementById('hallTicketContainer').style.display = 'none';
-            // Show main form
-            document.getElementById('mainForm').style.display = 'block';
-            document.getElementById('acknowledgmentPage').style.display = 'none';
-        }
     </script>
 </body>
+
 </html>
