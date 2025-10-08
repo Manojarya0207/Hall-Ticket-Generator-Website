@@ -1,251 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTTC Hall Ticket Generator - Login/Register</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GTTC Hall Ticket Generator — Login / Register</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+    :root{
+      --bg-1: #f4f7fb;
+      --bg-2: #eef3fb;
+      --surface: #ffffff;
+      --primary: #1a73e8;
+      --primary-variant: #185abc;
+      --accent: #0f9d58;
+      --muted: #6b7280;
+      --shadow-1: 0 6px 18px rgba(17,24,39,0.08);
+      --shadow-2: 0 10px 30px rgba(17,24,39,0.10);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --glass: rgba(255,255,255,0.6);
+      --transition-fast: 220ms;
+      --transition-medium: 360ms;
     }
 
-    body {
-      height: 100vh;
-      background: linear-gradient(135deg, #101112, #3cceff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg, var(--bg-1), var(--bg-2)); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; color:#111827; }
+
+    /* Layout */
+    .page {
+      min-height:90vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:50px 30px;
     }
 
-    .container {
-      background: #fff;
-      width: 400px;
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    .card {
+      width: 500px;
+      height: 600px;
+      max-width: calc(100% - 40px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,252,0.96));
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-2);
+      padding: 28px;
       position: relative;
-      overflow: hidden;
-      transition: transform 0.6s ease-in-out;
+      overflow: visible;
+      transition: transform var(--transition-medium) ease, box-shadow var(--transition-medium) ease;
     }
 
-    .logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+    .card:focus-within { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(16,24,40,0.14); }
+
+    /* Header */
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .brand-logo {
+      width:64px;
+      height:64px;
+      border-radius:50%;
+      overflow:hidden;
+      flex:0 0 64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg, #fff, #f6f8ff);
+      box-shadow: var(--shadow-1);
+      border: 1px solid rgba(16,24,40,0.04);
+    }
+    .brand-logo img { width:56px; height:56px; object-fit:cover; display:block; }
+    .brand-title { line-height:1; }
+    .brand-title h1 { font-size:18px; margin:0; color:var(--primary-variant); font-weight:700; letter-spacing:0.2px; }
+    .brand-title p { margin:0; font-size:12px; color:var(--muted); margin-top:2px; }
+
+    /* Tabs */
+    .tabs {
+      display:flex;
+      gap:8px;
+      margin: 12px 0 20px;
+    }
+    .tab {
+      flex:1;
+      text-align:center;
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+      color:var(--muted);
+      background:transparent;
+      transition: all var(--transition-fast) ease;
+      border: 1px solid transparent;
+    }
+    .tab.active {
+      background: linear-gradient(90deg, rgba(26,115,232,0.12), rgba(26,115,232,0.08));
+      color:var(--primary-variant);
+      box-shadow: var(--shadow-1);
+      border-color: rgba(26,115,232,0.08);
     }
 
-    .logo img {
-      width: 90px;
-      height: 90px;
-      margin-bottom: 10px;
-    }
-
-    .logo h2 {
-      color: #004aad;
-      font-weight: 700;
-      text-align: center;
+    /* Forms container */
+    .forms {
+      position:relative;
+      min-height: 300px;
     }
 
     .form {
-      transition: all 0.6s ease;
+      background: transparent;
+      padding: 6px 0;
+      transition: opacity var(--transition-medium) ease, transform var(--transition-medium) ease, visibility var(--transition-medium);
+      width:100%;
+      position:absolute;
+      left:0;
+      top:0;
+    }
+    .form.hidden { opacity:0; transform: translateX(18px); visibility:hidden; pointer-events:none; height:0; }
+    .form.visible { opacity:1; transform: translateX(0); visibility:visible; pointer-events:auto; }
+
+    /* Input group (Material style) */
+    .field {
+      margin-bottom:14px;
+      position:relative;
+    }
+    label.floating {
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:600;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border: 1px solid rgba(16,24,40,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,252,0.9));
+      font-size:14px;
+      color:#0f1724;
+      transition: box-shadow var(--transition-fast) ease, border-color var(--transition-fast) ease, transform var(--transition-fast);
+      outline:none;
+    }
+    input:focus {
+      box-shadow: 0 6px 18px rgba(26,115,232,0.08);
+      border-color: rgba(26,115,232,0.28);
+      transform: translateY(-1px);
+    }
+    .small { font-size:12px; color:var(--muted); margin-top:6px; }
+
+    /* Password hint */
+    .pw-hint { font-size:12px; color:var(--muted); margin-top:6px; display:flex; align-items:center; gap:8px; }
+
+    /* Action row */
+    .actions {
+      margin-top:6px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
     }
 
-    .form input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      font-size:14px;
+      transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast);
+      user-select:none;
+    }
+    .btn.primary {
+      background: linear-gradient(90deg, var(--primary), var(--primary-variant));
+      color:#fff;
+      box-shadow: 0 8px 20px rgba(26,115,232,0.18);
+      flex:1;
+    }
+    .btn.ghost {
+      background:transparent;
+      color:var(--primary-variant);
+      border: 1px solid rgba(26,115,232,0.08);
+      padding:8px 12px;
+      font-weight:600;
+    }
+    .btn:disabled { opacity:0.72; pointer-events:none; transform:none; box-shadow:none; }
+
+    /* Small link */
+    .link {
+      font-size:13px;
+      color:var(--muted);
+      text-decoration:none;
+      cursor:pointer;
     }
 
-    .form button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background-color: #004aad;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
+    /* Success modal (center) */
+    .modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:50; }
+    .modal-overlay.show { display:flex; background: rgba(8,12,20,0.36); }
+    .modal {
+      width:360px;
+      max-width:94%;
+      background:var(--surface);
+      padding:18px 20px;
+      border-radius:14px;
+      box-shadow: 0 18px 50px rgba(12,18,30,0.28);
+      text-align:center;
+      transform: translateY(8px) scale(0.98);
+      transition: transform 240ms ease, opacity 240ms ease;
+      opacity:0;
+    }
+    .modal.show { transform: translateY(0) scale(1); opacity:1; }
+    .modal h3 { margin:8px 0 4px; color:var(--accent); }
+    .modal p { margin:0; color:var(--muted); font-size:14px; }
+
+    /* Spinner (button) */
+    .spinner {
+      width:18px; height:18px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,0.25);
+      border-top-color: rgba(255,255,255,0.9);
+      animation: spin 800ms linear infinite;
+      display:inline-block;
+    }
+    .btn.primary .spinner-dark {
+      width:18px; height:18px;
+      border-radius:50%;
+      border:2px solid rgba(26,115,232,0.18);
+      border-top-color: rgba(26,115,232,0.95);
+      animation: spin 800ms linear infinite;
+      display:inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Snackbar */
+    .snackbar {
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%) translateY(40px);
+      bottom:28px;
+      background: #111827;
+      color:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.4);
+      opacity:0;
+      transition: transform 260ms ease, opacity 260ms ease;
+      z-index:60;
+      font-weight:600;
+      font-size:13px;
+    }
+    .snackbar.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* Footer small text */
+    .foot {
+      margin-top:18px;
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
     }
 
-    .form button:hover {
-      background-color: #007bff;
-    }
-
-    .form p {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-top: 10px;
-    }
-
-    .form a {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .form a:hover {
-      text-decoration: underline;
-    }
-
-    .hidden {
-      transform: translateX(400px);
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 40px 30px;
-      background: #fff;
-      border-radius: 20px;
-    }
-
-    .show {
-      transform: translateX(0);
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    /* Popup styling */
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: #fff;
-      padding: 40px 50px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      opacity: 0;
-      z-index: 999;
-    }
-
-    .popup.show {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-      animation: bounce 0.5s ease;
-    }
-
-    @keyframes bounce {
-      0% { transform: translate(-50%, -50%) scale(0.7); }
-      50% { transform: translate(-50%, -50%) scale(1.1); }
-      100% { transform: translate(-50%, -50%) scale(1); }
-    }
-
-    .checkmark {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      display: inline-block;
-      border: 4px solid #28a745;
-      position: relative;
-      animation: pop 0.4s ease forwards;
-    }
-
-    .checkmark::after {
-      content: "";
-      position: absolute;
-      left: 20px;
-      top: 4px;
-      width: 20px;
-      height: 40px;
-      border-right: 4px solid #28a745;
-      border-bottom: 4px solid #28a745;
-      transform: rotate(45deg);
-      transform-origin: center;
-      animation: draw 0.5s ease forwards 0.3s;
-      opacity: 0;
-    }
-
-    @keyframes draw {
-      from { opacity: 0; transform: rotate(45deg) scale(0.8); }
-      to { opacity: 1; transform: rotate(45deg) scale(1); }
-    }
-
-    .popup h3 {
-      color: #28a745;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    .popup button {
-      background-color: #004aad;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      margin-top: 15px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        width: 90%;
-        padding: 30px 20px;
-      }
+    /* Responsive tweaks */
+    @media (max-width:460px){
+      .card { padding:20px; border-radius:14px; }
+      .brand-logo { width:56px; height:56px; }
+      .brand-title h1 { font-size:16px; }
     }
   </style>
 </head>
 <body>
-  <div class="container" id="container">
-    <div class="logo">
-      <img src="Gttc_Magadi_Logo.jpg" alt="GTTC Logo" />
-      <h2>GTTC Hall Ticket Generator</h2>
-    </div>
+  <div class="page">
+    <main class="card" role="main" aria-labelledby="page-title">
+      <div class="brand" aria-hidden="false">
+        <div class="brand-logo" title="GTTC Logo">
+          <!-- Keep your existing logo file in same folder -->
+          <img src="Gttc_Magadi_Logo.jpg" alt="GTTC Logo" onerror="this.style.opacity=0.85; this.style.filter='grayscale(1)';">
+        </div>
+        <div class="brand-title">
+          <h1 id="page-title">GTTC Hall Ticket Generator</h1>
+          <p>Login to generate and print hall tickets</p>
+        </div>
+      </div>
 
-    <!-- Login Form -->
-    <div class="form show" id="loginForm">
-      <h3 style="text-align:center; color:#004aad;">Login</h3>
-      <input type="email" id="loginEmail" placeholder="Email" required />
-      <input type="password" id="loginPassword" placeholder="Password" required />
-      <button id="loginBtn">Login</button>
-      <p><a href="#" onclick="event.preventDefault()">Forgot Password?</a></p>
-      <p>Don’t have an account? <a href="#" onclick="event.preventDefault(); showRegister()">Register</a></p>
-    </div>
+      <nav class="tabs" role="tablist" aria-label="Authentication forms">
+        <button class="tab active" id="tab-login" role="tab" aria-selected="true">Login</button>
+        <button class="tab" id="tab-register" role="tab" aria-selected="false">Register</button>
+      </nav>
 
-    <!-- Register Form -->
-    <div class="form hidden" id="registerForm">
-      <h3 style="text-align:center; color:#004aad;">Register</h3>
-      <input type="text" id="regName" placeholder="Full Name" required />
-      <input type="email" id="regEmail" placeholder="Email" required />
-      <input type="password" id="regPassword" placeholder="Password" required />
-      <input type="password" id="regConfirm" placeholder="Confirm Password" required />
-      <button id="registerBtn">Register</button>
-      <br>
-      <p>Already have an account? <a href="#" onclick="event.preventDefault(); showLogin()">Go Back to Login</a></p>
+      <section class="forms" aria-live="polite">
+        <!-- LOGIN FORM -->
+        <form id="loginForm" class="form visible" autocomplete="on" novalidate>
+          <div class="field">
+            <label class="floating" for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@college.edu" required>
+            <div class="small" id="loginEmailHelp"></div>
+          </div>
+
+          <div class="field">
+            <label class="floating" for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter password" required>
+          </div>
+
+          <div class="actions">
+            <a class="link" href="#" id="forgotLink">Forgot password?</a>
+            <div style="flex:1; display:flex; gap:8px; justify-content: flex-end;">
+              <button type="button" id="loginBtn" class="btn primary" title="Login">
+                <span class="btn-text">Login</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="foot">
+            New here? <a class="link" id="toRegister" href="#" role="button">Create an account</a>
+          </div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="registerForm" class="form hidden" autocomplete="on" novalidate>
+          <div class="field">
+            <label class="floating" for="regName">Full name</label>
+            <input id="regName" type="text" autocomplete="name" placeholder="Your full name" required>
+          </div>
+
+          <div class="field">
+            <label class="floating" for="regEmail">Your Email</label>
+            <input id="regEmail" type="email" autocomplete="email" placeholder="youremail@gmail.com" required>
+          </div>
+
+          <div class="field">
+            <label class="floating" for="regPassword">Password</label>
+            <input id="regPassword" type="password" autocomplete="new-password" placeholder="Create a password" required>
+            <div class="pw-hint">Password must be at least 6 characters.</div>
+          </div>
+
+          <div class="field">
+            <label class="floating" for="regConfirm">Confirm password</label>
+            <input id="regConfirm" type="password" autocomplete="new-password" placeholder="Confirm password" required>
+            <div class="small" id="pwMatchHint"></div>
+          </div>
+
+          <div class="actions" style="margin-top:8px;">
+            <button type="button" id="goBackBtn" class="btn ghost">Go back to Login</button>
+            <button type="button" id="registerBtn" class="btn primary">
+              <span class="btn-text">Register</span>
+            </button>
+          </div>
+
+          <div class="foot" style="margin-top:14px;">
+            By creating an account you agree to our <span style="color:var(--primary-variant); font-weight:700;">Terms</span>.
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="modalOverlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div style="font-size:44px; line-height:1;">✅</div>
+      <h3 id="modalTitle">Success</h3>
+      <p id="modalMessage">You have successfully signed in.</p>
+      <div style="margin-top:14px; display:flex; gap:10px; justify-content:center;">
+        <button class="btn primary" id="modalOk">Continue</button>
+        <button class="btn ghost" id="modalClose">Close</button>
+      </div>
     </div>
   </div>
 
-  <!-- Success Popup -->
-  <div class="popup" id="popup">
-    <div class="checkmark"></div>
-    <h3>Success!</h3>
-    <p>Your action was successful.</p>
-    <button onclick="closePopup()">OK</button>
-  </div>
+  <!-- Snackbar -->
+  <div id="snackbar" class="snackbar" role="status" aria-live="polite"></div>
 
-  <!-- Firebase & App Logic -->
+  <!-- Firebase + App Logic -->
   <script type="module">
-    // Import Firebase modules
+    // --- Firebase imports (keeps your existing config) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-    // Your Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyCnsoxgiTt0HlK-47MmtrtJ8ycdyCSxpes",
       authDomain: "hallticketgen-login-data.firebaseapp.com",
@@ -260,70 +395,207 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // DOM elements
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const popup = document.getElementById("popup");
-    const loginBtn = document.getElementById("loginBtn");
-    const registerBtn = document.getElementById("registerBtn");
+    // --- Elements ---
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
 
-    // UI transitions
-    window.showRegister = function() {
-      loginForm.classList.add("hidden");
-      loginForm.classList.remove("show");
-      registerForm.classList.remove("hidden");
-      registerForm.classList.add("show");
+    const toRegister = document.getElementById('toRegister');
+    const goBackBtn = document.getElementById('goBackBtn');
+
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+
+    const regName = document.getElementById('regName');
+    const regEmail = document.getElementById('regEmail');
+    const regPassword = document.getElementById('regPassword');
+    const regConfirm = document.getElementById('regConfirm');
+    const pwMatchHint = document.getElementById('pwMatchHint');
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalOk = document.getElementById('modalOk');
+    const modalClose = document.getElementById('modalClose');
+
+    const snackbar = document.getElementById('snackbar');
+    const forgotLink = document.getElementById('forgotLink');
+
+    // Utility: show snackbar
+    function showSnack(msg, timeout = 3000) {
+      snackbar.textContent = msg;
+      snackbar.classList.add('show');
+      setTimeout(()=> snackbar.classList.remove('show'), timeout);
     }
 
-    window.showLogin = function() {
-      registerForm.classList.add("hidden");
-      registerForm.classList.remove("show");
-      loginForm.classList.remove("hidden");
-      loginForm.classList.add("show");
+    // Toggle forms
+    function showLogin() {
+      tabLogin.classList.add('active'); tabLogin.setAttribute('aria-selected','true');
+      tabRegister.classList.remove('active'); tabRegister.setAttribute('aria-selected','false');
+      loginForm.classList.remove('hidden'); loginForm.classList.add('visible');
+      registerForm.classList.remove('visible'); registerForm.classList.add('hidden');
+      // reset fields hints
+      pwMatchHint.textContent = '';
     }
 
-    function showPopup() {
-      popup.classList.add("show");
+    function showRegister() {
+      tabRegister.classList.add('active'); tabRegister.setAttribute('aria-selected','true');
+      tabLogin.classList.remove('active'); tabLogin.setAttribute('aria-selected','false');
+      registerForm.classList.remove('hidden'); registerForm.classList.add('visible');
+      loginForm.classList.remove('visible'); loginForm.classList.add('hidden');
     }
 
-    window.closePopup = function() {
-      popup.classList.remove("show");
+    // Tab clicks
+    tabLogin.addEventListener('click', (e)=> { e.preventDefault(); showLogin(); });
+    tabRegister.addEventListener('click', (e)=> { e.preventDefault(); showRegister(); });
+    toRegister.addEventListener('click', (e)=> { e.preventDefault(); showRegister(); });
+    goBackBtn.addEventListener('click', (e)=> { e.preventDefault(); showLogin(); });
+
+    // Button loading helpers
+    function setButtonLoading(btn, isLoading, options = {}) {
+      // options: { darkSpinner: boolean }
+      const textSpan = btn.querySelector('.btn-text');
+      if (!textSpan) return;
+      if (isLoading) {
+        btn.dataset.prev = textSpan.textContent;
+        textSpan.textContent = '';
+        if (options.darkSpinner) {
+          const sp = document.createElement('span'); sp.className = 'spinner-dark'; sp.setAttribute('aria-hidden','true'); btn.prepend(sp);
+        } else {
+          const sp = document.createElement('span'); sp.className = 'spinner'; sp.setAttribute('aria-hidden','true'); btn.prepend(sp);
+        }
+        btn.disabled = true;
+      } else {
+        const spinner = btn.querySelector('.spinner, .spinner-dark');
+        if (spinner) spinner.remove();
+        textSpan.textContent = btn.dataset.prev || 'Submit';
+        btn.disabled = false;
+      }
+    }
+
+    // Simple validation helpers
+    function isEmail(value) {
+      return /\S+@\S+\.\S+/.test(value);
+    }
+
+    // Login flow
+    loginBtn.addEventListener('click', async () => {
+      const email = loginEmail.value.trim();
+      const pass = loginPassword.value;
+
+      if (!email || !pass) { showSnack('Please fill all login fields'); return; }
+      if (!isEmail(email)) { showSnack('Please enter a valid email'); return; }
+
+      setButtonLoading(loginBtn, true, { darkSpinner: true });
+
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        // Success UI
+        modalMessage.textContent = `Welcome back, ${cred.user.displayName || cred.user.email}!`;
+        openModal();
+      } catch (err) {
+        const msg = (err && err.message) ? err.message : 'Login failed';
+        showSnack(msg);
+      } finally {
+        setTimeout(()=> setButtonLoading(loginBtn, false, { darkSpinner: true }), 600);
+      }
+    });
+
+    // Register flow
+    // Live password match hint
+    regConfirm.addEventListener('input', ()=> {
+      if (!regPassword.value && !regConfirm.value) { pwMatchHint.textContent = ''; return; }
+      if (regPassword.value === regConfirm.value) {
+        pwMatchHint.textContent = 'Passwords match ✔';
+        pwMatchHint.style.color = 'var(--accent)';
+      } else {
+        pwMatchHint.textContent = 'Passwords do not match';
+        pwMatchHint.style.color = '#e11d48';
+      }
+    });
+
+    registerBtn.addEventListener('click', async () => {
+      const name = regName.value.trim();
+      const email = regEmail.value.trim();
+      const pass = regPassword.value;
+      const confirm = regConfirm.value;
+
+      if (!name || !email || !pass || !confirm) { showSnack('Please fill all registration fields'); return; }
+      if (!isEmail(email)) { showSnack('Please enter a valid email'); return; }
+      if (pass.length < 6) { showSnack('Password must be at least 6 characters'); return; }
+      if (pass !== confirm) { showSnack('Passwords do not match'); return; }
+
+      setButtonLoading(registerBtn, true, { darkSpinner: false });
+
+      try {
+        const credential = await createUserWithEmailAndPassword(auth, email, pass);
+        // update displayName if available
+        try { await updateProfile(credential.user, { displayName: name }); } catch(_) { /* ignore */ }
+
+        modalMessage.textContent = `Welcome, ${name}! Your account is ready.`;
+        openModal();
+
+      } catch (err) {
+        const message = (err && err.message) ? err.message : 'Registration failed';
+        showSnack(message);
+      } finally {
+        setTimeout(()=> setButtonLoading(registerBtn, false, { darkSpinner: false }), 700);
+      }
+    });
+
+    // Password reset (forgot)
+    forgotLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = loginEmail.value.trim();
+      if (!email) { showSnack('Enter your email above to reset password'); return; }
+      if (!isEmail(email)) { showSnack('Enter a valid email'); return; }
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showSnack('Password reset email sent');
+      } catch (err) {
+        showSnack(err.message || 'Could not send reset email');
+      }
+    });
+
+    // Modal control
+    function openModal() {
+      modalOverlay.classList.add('show');
+      modalOverlay.setAttribute('aria-hidden','false');
+      const modal = modalOverlay.querySelector('.modal');
+      setTimeout(()=> modal.classList.add('show'), 40);
+    }
+    function closeModal() {
+      const modal = modalOverlay.querySelector('.modal');
+      modal.classList.remove('show');
+      setTimeout(()=> { modalOverlay.classList.remove('show'); modalOverlay.setAttribute('aria-hidden','true'); }, 220);
+    }
+    modalOk.addEventListener('click', ()=> {
+      closeModal();
+      // After successful login/register, you might redirect to the hall ticket generator page
+      // location.href = '/hallticket.html'; // <-- enable if you have that page
+      showSnack('You may now access the hall ticket generator', 2800);
       showLogin();
-    }
+    });
+    modalClose.addEventListener('click', ()=> { closeModal(); });
 
-    // Register user
-    registerBtn.addEventListener("click", async () => {
-      const name = document.getElementById("regName").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const pass = document.getElementById("regPassword").value.trim();
-      const confirm = document.getElementById("regConfirm").value.trim();
+    // Accessibility: allow Enter key to submit on relevant forms
+    [loginEmail, loginPassword].forEach(el => el.addEventListener('keydown', (e) => { if (e.key === 'Enter') loginBtn.click(); }));
+    [regName, regEmail, regPassword, regConfirm].forEach(el => el.addEventListener('keydown', (e) => { if (e.key === 'Enter') registerBtn.click(); }));
 
-      if (!name || !email || !pass || !confirm) return alert("Please fill all fields!");
-      if (pass !== confirm) return alert("Passwords do not match!");
+    // Initialize view
+    showLogin();
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-        await updateProfile(userCredential.user, { displayName: name });
-        showPopup();
-      } catch (err) {
-        alert(err.message);
-      }
+    // Small improvement: trap focus when modal is open (simple)
+    modalOverlay.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
     });
 
-    // Login user
-    loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value.trim();
-      const pass = document.getElementById("loginPassword").value.trim();
-      if (!email || !pass) return alert("Please fill all fields!");
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-        showPopup();
-        console.log("Logged in:", userCredential.user.email);
-      } catch (err) {
-        alert(err.message);
-      }
-    });
+    // Optional: show a soft welcome snackbar once
+    setTimeout(()=> showSnack('Welcome! Use Login or Register to continue.' , 2200), 900);
   </script>
 </body>
 </html>
