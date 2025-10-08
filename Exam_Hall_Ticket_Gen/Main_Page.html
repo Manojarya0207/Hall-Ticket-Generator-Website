@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GTTC Magadi - Hall Ticket & Acknowledgement</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* ======================
    Global Styles
@@ -631,6 +633,54 @@
         }
 
         /* ======================
+   Acknowledgement & Hall Ticket Views
+====================== */
+        #ackView,
+        #hallView {
+            display: none;
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pdf-btn {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pdf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        .nav-btn:hover {
+            background: #1a252f;
+        }
+
+        /* ======================
    Responsive
 ====================== */
         @media (max-width: 768px) {
@@ -671,6 +721,11 @@
             .subjects-list {
                 grid-template-columns: 1fr;
             }
+
+            #ackView,
+            #hallView {
+                padding: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -692,6 +747,12 @@
 
             h2 {
                 font-size: 20px;
+            }
+
+            .pdf-btn,
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 14px;
             }
         }
     </style>
@@ -896,6 +957,10 @@
         </div>
         <button class="submit-btn" id="submitBtn">Submit Documents</button>
     </div>
+
+    <div id="ackView"></div>
+    <div id="hallView"></div>
+
     <script>
         const subjectsData = {
             "C-20": {
@@ -1024,7 +1089,7 @@
                         { code: "20AI22P", name: "DIGITAL ELECTRONICS LAB" },
                         { code: "20AI23P", name: "ENGINEERING DESIGN" },
                         { code: "20AI24P", name: "ENGlish COMMUNICATION SKILLS" },
-                        { code: "20AI21A", name: "SAHITHYA SINCHANA â€“ II" }
+                        { code: "20AI21A", name: "SAHITHYA SINCHANA – II" }
                     ],
                     "3": [
                         { code: "20AI31T", name: "ENGINEERING MATHEMATICS FOR AI" },
@@ -1081,19 +1146,19 @@
                         { code: "20TD32T", name: "E M & Som" },
                         { code: "20TD33T", name: "Engineering Metrology" },
                         { code: "20TD34T", name: "Material Technology - I" },
-                        { code: "20TD35T", name: "Engineering Drawing â€“ III (Assembly)" },
-                        { code: "20TD31P", name: "Cad Lab â€“ I (Solid Works)" },
-                        { code: "20TD32P", name: "Work Shop â€“ III" },
+                        { code: "20TD35T", name: "Engineering Drawing – III (Assembly)" },
+                        { code: "20TD31P", name: "Cad Lab – I (Solid Works)" },
+                        { code: "20TD32P", name: "Work Shop – III" },
                         { code: "20TD31A", name: "Koushalya Kaipidi" }
                     ],
                     "4": [
-                        { code: "20TD41T", name: "Production Technology â€“ IV (Grinding)" },
+                        { code: "20TD41T", name: "Production Technology – IV (Grinding)" },
                         { code: "20TD42T", name: "Press Tool Theory - I" },
                         { code: "20TD43T", name: "Material Technology - II" },
                         { code: "20TD44T", name: "Jigs & Fixtures Theory & Design" },
                         { code: "20TD41P", name: "Cnc Programming & Operations Lab" },
-                        { code: "20TD42P", name: "Cad Lab â€“ II (Nx Optional)" },
-                        { code: "20TD43P", name: "Work Shop â€“ IV" },
+                        { code: "20TD42P", name: "Cad Lab – II (Nx Optional)" },
+                        { code: "20TD43P", name: "Work Shop – IV" },
                         { code: "20TD41A", name: "Indian Constitution" }
                     ],
                     "5": [
@@ -1125,7 +1190,7 @@
                         { code: "24MC23P", name: "IT SKILLS LAB" },
                         { code: "24MC24P", name: "MACHINE SHOP" },
                         { code: "24MC25P", name: "CAD LAB" },
-                        { code: "24MC28A", name: "SAHITHYA SINCHANA â€“ II / BALAKE KANNADA - II" },
+                        { code: "24MC28A", name: "SAHITHYA SINCHANA – II / BALAKE KANNADA - II" },
                         { code: "24MC29A", name: "BODY MIND CO-ORDINATION ACTIVITY" }
                     ],
                     "3": [
@@ -1213,7 +1278,7 @@
                         { code: "24AI22P", name: "DIGITAL ELECTRONICS LAB" },
                         { code: "24AI23P", name: "ENGINEERING DESIGN" },
                         { code: "24AI24P", name: "ENGLISH COMMUNICATION SKILLS" },
-                        { code: "24AI21A", name: "SAHITHYA SINCHANA â€“ II" }
+                        { code: "24AI21A", name: "SAHITHYA SINCHANA – II" }
                     ],
                     "3": [
                         { code: "24AI31T", name: "Engineering mathematics for AI" },
@@ -1286,7 +1351,6 @@
                         { code: "25SC13P", name: "Engineering Chemistry Lab" },
                         { code: "25ME11T", name: "Basic Electrical Engineering" }
                     ],
-                    // Additional semesters would follow the same pattern
                 },
                 "Mechatronics": {
                     "1": [
@@ -1301,10 +1365,10 @@
                         { code: "25SC13P", name: "Engineering Chemistry Lab" },
                         { code: "25MT11T", name: "Basic Electronics" }
                     ],
-                    // Additional semesters would follow the same pattern
                 }
             }
         };
+
         document.addEventListener('DOMContentLoaded', function () {
             const schemeSelect = document.getElementById('scheme');
             const courseSelect = document.getElementById('course');
@@ -1314,6 +1378,7 @@
             const examCheckboxes = document.querySelectorAll('.exam-type input[type="checkbox"]');
             const selectAllBtn = document.getElementById('selectAllBtn');
             const removeAllBtn = document.getElementById('removeAllBtn');
+
             function updateSubjects() {
                 const scheme = schemeSelect.value;
                 const course = courseSelect.value;
@@ -1367,7 +1432,6 @@
                         group.subjects.forEach(subject => {
                             const subjectItem = document.createElement('div');
                             subjectItem.className = 'subject-item';
-                            // Check if we should auto-select this subject
                             const shouldAutoSelect = selectedExamTypes.some(cb => cb.id === 'regular' || cb.id === 'both');
                             subjectItem.innerHTML = `
                                 <input type="checkbox" id="${subject.code}" name="subjects" value="${subject.code}" ${shouldAutoSelect ? 'checked' : ''}>
@@ -1382,9 +1446,11 @@
                     subjectsList.innerHTML = '<p>No subjects available for this selection.</p>';
                 }
             }
+
             schemeSelect.addEventListener('change', updateSubjects);
             courseSelect.addEventListener('change', updateSubjects);
             semesterSelect.addEventListener('change', updateSubjects);
+
             examCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function () {
                     document.getElementById('examType-error').style.display = 'none';
@@ -1397,10 +1463,12 @@
                     updateSubjects();
                 });
             });
+
             selectAllBtn.addEventListener('click', function () {
                 const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
                 subjectCheckboxes.forEach(cb => cb.checked = true);
             });
+
             removeAllBtn.addEventListener('click', function () {
                 const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
                 subjectCheckboxes.forEach(cb => cb.checked = false);
@@ -1410,22 +1478,26 @@
             setupUploadSection('doc');
             setupUploadSection('photo');
             setupUploadSection('receipt');
+
             function setupUploadSection(type) {
                 const uploadBox = document.getElementById(`${type}UploadBox`);
                 const fileInput = document.getElementById(`${type}Input`);
                 const previewImg = document.getElementById(`${type}Preview`);
                 const removeBtn = document.getElementById(`${type}RemoveBtn`);
                 const browseBtn = uploadBox.querySelector('.browse-btn');
+
                 uploadBox.addEventListener('click', function (e) {
                     if (e.target !== browseBtn && !browseBtn.contains(e.target) &&
                         e.target !== removeBtn && !removeBtn.contains(e.target)) {
                         fileInput.click();
                     }
                 });
+
                 browseBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     fileInput.click();
                 });
+
                 if (type === 'photo') {
                     const cameraBtn = uploadBox.querySelector('.camera-btn');
                     cameraBtn.addEventListener('click', function (e) {
@@ -1433,21 +1505,26 @@
                         alert('Camera functionality would be implemented here. This requires HTTPS and camera permissions.');
                     });
                 }
+
                 fileInput.addEventListener('change', function () {
                     handleFileSelection(this, previewImg, uploadBox);
                     document.getElementById(`${type}-error`).style.display = 'none';
                 });
+
                 removeBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     resetUploadBox(previewImg, uploadBox, fileInput);
                 });
+
                 uploadBox.addEventListener('dragover', function (e) {
                     e.preventDefault();
                     uploadBox.classList.add('dragover');
                 });
+
                 uploadBox.addEventListener('dragleave', function () {
                     uploadBox.classList.remove('dragover');
                 });
+
                 uploadBox.addEventListener('drop', function (e) {
                     e.preventDefault();
                     uploadBox.classList.remove('dragover');
@@ -1458,6 +1535,7 @@
                     }
                 });
             }
+
             function handleFileSelection(input, previewImg, uploadBox) {
                 if (input.files && input.files[0]) {
                     const file = input.files[0];
@@ -1473,21 +1551,25 @@
                     reader.readAsDataURL(file);
                 }
             }
+
             function resetUploadBox(previewImg, uploadBox, fileInput) {
                 previewImg.src = '';
                 uploadBox.classList.remove('has-image');
                 fileInput.value = '';
             }
+
             // Full name validation (only letters and spaces)
             const fullnameInput = document.getElementById('fullname');
             fullnameInput.addEventListener('input', function () {
                 this.value = this.value.replace(/[^A-Za-z\s]/g, '');
             });
+
             // Register number validation (only digits)
             const regnumberInput = document.getElementById('regnumber');
             regnumberInput.addEventListener('input', function () {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
+
             // Phone number validation (only digits, max 10)
             const phoneInput = document.getElementById('phone');
             phoneInput.addEventListener('input', function () {
@@ -1496,10 +1578,12 @@
                     this.value = this.value.slice(0, 10);
                 }
             });
+
             // Form validation on submit
             document.getElementById('submitBtn').addEventListener('click', async function (e) {
                 e.preventDefault();
                 let isValid = true;
+
                 // Validate full name
                 const fullname = document.getElementById('fullname').value;
                 if (!fullname || !/^[A-Za-z\s]+$/.test(fullname)) {
@@ -1510,6 +1594,7 @@
                     document.getElementById('fullname-error').style.display = 'none';
                     document.getElementById('fullname').classList.remove('error');
                 }
+
                 // Validate register number
                 const regnumber = document.getElementById('regnumber').value;
                 if (!regnumber || !/^\d+$/.test(regnumber)) {
@@ -1520,6 +1605,7 @@
                     document.getElementById('regnumber-error').style.display = 'none';
                     document.getElementById('regnumber').classList.remove('error');
                 }
+
                 // Validate scheme
                 const scheme = document.getElementById('scheme').value;
                 if (!scheme || scheme === "Select scheme") {
@@ -1530,6 +1616,7 @@
                     document.getElementById('scheme-error').style.display = 'none';
                     document.getElementById('scheme').classList.remove('error');
                 }
+
                 // Validate course
                 const course = document.getElementById('course').value;
                 if (!course || course === "Select your course") {
@@ -1540,6 +1627,7 @@
                     document.getElementById('course-error').style.display = 'none';
                     document.getElementById('course').classList.remove('error');
                 }
+
                 // Validate semester
                 const semester = document.getElementById('semester').value;
                 if (!semester || semester === "Select semester") {
@@ -1550,6 +1638,7 @@
                     document.getElementById('semester-error').style.display = 'none';
                     document.getElementById('semester').classList.remove('error');
                 }
+
                 // Validate subjects (only if subjects container is visible)
                 if (subjectsContainer.style.display === 'block') {
                     const selectedSubjects = document.querySelectorAll('input[name="subjects"]:checked');
@@ -1560,6 +1649,7 @@
                         document.getElementById('subjects-error').style.display = 'none';
                     }
                 }
+
                 // Validate phone
                 const phone = document.getElementById('phone').value;
                 if (!phone || !/^\d{10}$/.test(phone)) {
@@ -1570,6 +1660,7 @@
                     document.getElementById('phone-error').style.display = 'none';
                     document.getElementById('phone').classList.remove('error');
                 }
+
                 // Validate exam type
                 const examTypes = document.querySelectorAll('input[name="examType"]:checked');
                 if (examTypes.length === 0) {
@@ -1578,6 +1669,7 @@
                 } else {
                     document.getElementById('examType-error').style.display = 'none';
                 }
+
                 // Validate file uploads
                 const docUpload = document.getElementById('docInput').files.length;
                 if (docUpload === 0) {
@@ -1586,6 +1678,7 @@
                 } else {
                     document.getElementById('doc-error').style.display = 'none';
                 }
+
                 const receiptUpload = document.getElementById('receiptInput').files.length;
                 if (receiptUpload === 0) {
                     document.getElementById('receipt-error').style.display = 'block';
@@ -1593,6 +1686,7 @@
                 } else {
                     document.getElementById('receipt-error').style.display = 'none';
                 }
+
                 const photoUpload = document.getElementById('photoInput').files.length;
                 if (photoUpload === 0) {
                     document.getElementById('photo-error').style.display = 'block';
@@ -1600,10 +1694,12 @@
                 } else {
                     document.getElementById('photo-error').style.display = 'none';
                 }
+
                 // If all valid, submit the form
                 if (isValid) {
                     // Show success message
                     document.getElementById('successMessage').style.display = 'block';
+
                     // Get form data
                     const formData = {
                         fullname: document.getElementById('fullname').value,
@@ -1619,43 +1715,241 @@
                         photoUrl: document.getElementById('photoPreview').src,
                         submittedAt: new Date().toISOString()
                     };
+
                     // Store form data in localStorage for acknowledgment page
                     localStorage.setItem('formData', JSON.stringify(formData));
-                    // Save to Firebase Firestore
-                    try {
-                        const docRef = await addDoc(collection(db, 'applications'), {
-                            username: formData.fullname,
-                            regNumber: formData.regnumber,
-                            scheme: formData.scheme,
-                            course: formData.course,
-                            semester: formData.semester,
-                            phone: formData.phone,
-                            examType: formData.examType,
-                            subjects: formData.subjects,
-                            docUrl: formData.docUrl,
-                            receiptUrl: formData.receiptUrl,
-                            photoUrl: formData.photoUrl,
-                            status: 'pending',
-                            submittedAt: serverTimestamp(),
-                            avatar: null
-                        });
-                        console.log("Document written with ID: ", docRef.id);
-                        // Show acknowledgment page after 2 seconds
-                        setTimeout(function () {
-                            showAcknowledgment();
-                        }, 2000);
-                    } catch (error) {
-                        console.error("Error adding document: ", error);
-                        alert("Failed to save data to server. Please try again.");
+
+                    // Show acknowledgment after 2 seconds
+                    setTimeout(function () {
+                        showAcknowledgment();
+                    }, 2000);
+                }
+            });
+
+            function generateAcknowledgementHTML() {
+                const data = JSON.parse(localStorage.getItem('formData'));
+                return `
+                    <style>
+    /* ======= Acknowledgement Styles ======= */
+    #ackContainer {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        max-width: 900px;
+        margin: 40px auto;
+        font-family: "Poppins", sans-serif;
+        color: #2c3e50;
+        transition: all 0.3s ease;
+    }
+
+    #ackContainer:hover {
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    #ackContainer h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        color: #1a5276;
+        letter-spacing: 1px;
+    }
+
+    #ackContainer p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    #ackContainer h3 {
+        font-size: 1.1rem;
+        color: #1a5276;
+        margin-bottom: 12px;
+        border-left: 4px solid #3498db;
+        padding-left: 8px;
+    }
+
+    /* Grid layout */
+    #ackContainer .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Uploaded images layout */
+    #ackContainer .upload-preview {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #ackContainer .upload-preview img {
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        padding: 5px;
+        background-color: #fafafa;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #ackContainer .upload-preview img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+    }
+
+    /* Buttons */
+    .pdf-btn, .nav-btn {
+        background: linear-gradient(135deg, #3498db, #2e86c1);
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        margin: 5px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .pdf-btn i {
+        margin-right: 6px;
+    }
+
+    .pdf-btn:hover, .nav-btn:hover {
+        background: linear-gradient(135deg, #2e86c1, #21618c);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+        #ackContainer {
+            padding: 25px;
+        }
+
+        #ackContainer h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+<div class="container" id="ackContainer">
+    <div style="text-align: center; margin-bottom: 25px;">
+        <h2>Acknowledgement Receipt</h2>
+        <p style="color: #3498db;">Your documents have been successfully submitted.</p>
+    </div>
+
+    <div class="info-grid">
+        <div>
+            <h3>Personal Information</h3>
+            <p><strong>Full Name:</strong> ${data.fullname}</p>
+            <p><strong>Register Number:</strong> ${data.regnumber}</p>
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Scheme:</strong> ${data.scheme}</p>
+            <p><strong>Course:</strong> ${data.course}</p>
+            <p><strong>Semester:</strong> ${data.semester}</p>
+            <p><strong>Exam Type:</strong> ${data.examType.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</p>
+            <p><strong>Subjects:</strong> ${data.subjects.length ? data.subjects.join(', ') : 'None selected'}</p>
+        </div>
+        <div>
+            <h3>Uploaded Documents</h3>
+            <div class="upload-preview">
+                <div><strong>Passport Photo:</strong><br><img src="${data.photoUrl}" style="width: 100px; height: 120px; object-fit: cover;"></div>
+                <div><strong>NOC Document:</strong><br><img src="${data.docUrl}" style="max-width: 150px; max-height: 100px; object-fit: contain;"></div>
+                <div><strong>Fees Receipt:</strong><br><img src="${data.receiptUrl}" style="max-width: 150px; max-height: 100px; object-fit: contain;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="downloadPDF('ackContainer', 'GTTC_Acknowledgement_${data.regnumber}.pdf')" class="pdf-btn">
+            <i class="fas fa-download"></i> Download as PDF
+        </button>
+        <button onclick="showSection('hallView')" class="nav-btn">
+            View Hall Ticket
+        </button>
+    </div>
+</div>
+
+                `;
+            }
+
+            function generateHallTicketHTML() {
+                const data = JSON.parse(localStorage.getItem('formData'));
+                return `
+                    <div class="container" id="hallContainer" style="border: 3px solid #3498db;">
+                        <div style="text-align: center; position: relative;">
+                            <img src="Gttc_Magadi_Logo.jpg" alt="GTTC Logo" style="width: 80px; border-radius: 50%; margin-bottom: 10px;">
+                            <h2 style="color: #2c3e50; font-weight: 700; margin: 10px 0;">Government Tool Room & Training Centre</h2>
+                            <p style="color: #3498db; margin-bottom: 20px;">Magadi - 562123, Karnataka</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                                <h3 style="color: #e74c3c; margin-bottom: 15px;">EXAM HALL TICKET</h3>
+                                
+                                <div style="display: flex; gap: 20px; align-items: center; justify-content: center; margin-top: 15px;">
+                                    <img src="${data.photoUrl}" alt="Student Photo" style="width: 100px; height: 120px; object-fit: cover; border: 2px solid #3498db; border-radius: 4px;">
+                                    <div style="text-align: left; flex: 1;">
+                                        <p><strong>Name:</strong> ${data.fullname}</p>
+                                        <p><strong>Reg No:</strong> ${data.regnumber}</p>
+                                        <p><strong>Course:</strong> ${data.course}</p>
+                                        <p><strong>Semester:</strong> ${data.semester}</p>
+                                        <p><strong>Exam:</strong> ${data.examType.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</p>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc; font-size: 14px; color: #777;">
+                                    <p>✅ Carry this hall ticket along with original ID proof to the exam center.</p>
+                                    <p>📅 Exam dates will be notified separately.</p>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <button onclick="downloadPDF('hallContainer', 'GTTC_HallTicket_${data.regnumber}.pdf')" class="pdf-btn">
+                                    <i class="fas fa-download"></i> Download Hall Ticket (PDF)
+                                </button>
+                                <button onclick="showSection('ackView')" class="nav-btn">
+                                    Back to Acknowledgement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function showAcknowledgment() {
+                document.querySelector('.main-form').style.display = 'none';
+                const ackHTML = generateAcknowledgementHTML();
+                const hallHTML = generateHallTicketHTML();
+                document.getElementById('ackView').innerHTML = ackHTML;
+                document.getElementById('hallView').innerHTML = hallHTML;
+                showSection('ackView');
+            }
+
+            window.showSection = function (id) {
+                document.querySelectorAll('#ackView, #hallView').forEach(el => el.style.display = 'none');
+                document.getElementById(id).style.display = 'block';
+            };
+
+            window.downloadPDF = function (elementId, filename) {
+                const { jsPDF } = window.jspdf;
+                const element = document.getElementById(elementId);
+                html2canvas(element).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210;
+                    const pageHeight = 297;
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
                     }
-                }
-            });
-            // Handle back navigation
-            window.addEventListener('popstate', function (event) {
-                if (document.body.classList.contains('hall-ticket-active')) {
-                    goBackToForm();
-                }
-            });
+
+                    pdf.save(filename);
+                });
+            };
         });
     </script>
 </body>
