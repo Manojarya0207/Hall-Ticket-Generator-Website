@@ -2598,129 +2598,276 @@
             function generateAcknowledgementHTML() {
                 const data = JSON.parse(localStorage.getItem('formData'));
                 return `
-                    <style>
-    /* ======= Acknowledgement Styles ======= */
+                    <!-- ======= GTTC Magadi Acknowledgement Receipt (with Logo Header) ======= -->
+<style>
+  #ackContainer {
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    max-width: 950px;
+    margin: 50px auto;
+    font-family: "Poppins", sans-serif;
+    color: #2c3e50;
+    transition: all 0.3s ease-in-out;
+  }
+
+  #ackContainer:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  /* ======= Header Section ======= */
+  .college-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  .college-header img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+
+  .college-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a5276;
+    line-height: 1.3;
+  }
+
+  .college-header span {
+    font-size: 0.9rem;
+    display: block;
+    color: #3498db;
+    letter-spacing: 0.5px;
+  }
+
+  /* ======= Title Section ======= */
+  #ackContainer h2 {
+    font-size: 1.8rem;
+    color: #1a5276;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  #ackContainer p.subtitle {
+    font-size: 1rem;
+    color: #3498db;
+    margin-bottom: 35px;
+  }
+
+  /* ======= Card Layout ======= */
+  .ack-card {
+    background: #f9fbfd;
+    border: 1px solid #e5e9f2;
+    border-radius: 16px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 10px rgba(52, 152, 219, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ack-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(52, 152, 219, 0.15);
+  }
+
+  .ack-card h3 {
+    font-size: 1.2rem;
+    color: #1a5276;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ack-card h3::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 22px;
+    background: linear-gradient(135deg, #3498db, #2e86c1);
+    border-radius: 2px;
+  }
+
+  /* ======= Grid Layout ======= */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .ack-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .ack-card strong {
+    color: #1f618d;
+  }
+
+  /* ======= Uploaded Images Redesigned ======= */
+  .upload-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    justify-items: center;
+    align-items: start;
+  }
+
+  .upload-item {
+    text-align: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .upload-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(52, 152, 219, 0.25);
+  }
+
+  .upload-item strong {
+    display: block;
+    color: #1a5276;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .upload-item img {
+    width: 100%;
+    max-width: 250px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #dce3f0;
+    background: #fefefe;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .upload-item img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+  }
+
+  /* ======= Buttons ======= */
+  .action-buttons {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  .pdf-btn,
+  .nav-btn {
+    background: linear-gradient(135deg, #3498db, #2e86c1);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  }
+
+  .pdf-btn:hover,
+  .nav-btn:hover {
+    background: linear-gradient(135deg, #2e86c1, #21618c);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(46, 134, 193, 0.35);
+  }
+
+  .pdf-btn i {
+    margin-right: 8px;
+  }
+
+  @media (max-width: 600px) {
     #ackContainer {
-        background: #ffffff;
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        max-width: 900px;
-        margin: 40px auto;
-        font-family: "Poppins", sans-serif;
-        color: #2c3e50;
-        transition: all 0.3s ease;
+      padding: 25px;
     }
-    #ackContainer:hover {
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    .ack-card {
+      padding: 20px;
     }
-    #ackContainer h2 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-        color: #1a5276;
-        letter-spacing: 1px;
+    .college-header img {
+      width: 65px;
+      height: 65px;
     }
-    #ackContainer p {
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-    #ackContainer h3 {
-        font-size: 1.1rem;
-        color: #1a5276;
-        margin-bottom: 12px;
-        border-left: 4px solid #3498db;
-        padding-left: 8px;
-    }
-    /* Grid layout */
-    #ackContainer .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-        margin-bottom: 30px;
-    }
-    /* Uploaded images layout */
-    #ackContainer .upload-preview {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    #ackContainer .upload-preview img {
-        border: 1px solid #e1e1e1;
-        border-radius: 8px;
-        padding: 5px;
-        background-color: #fafafa;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    #ackContainer .upload-preview img:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
-    }
-    /* Buttons */
-    .pdf-btn, .nav-btn {
-        background: linear-gradient(135deg, #3498db, #2e86c1);
-        color: white;
-        border: none;
-        padding: 10px 18px;
-        margin: 5px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: background 0.3s, transform 0.2s;
-    }
-    .pdf-btn i {
-        margin-right: 6px;
-    }
-    .pdf-btn:hover, .nav-btn:hover {
-        background: linear-gradient(135deg, #2e86c1, #21618c);
-        transform: translateY(-2px);
-    }
-    @media (max-width: 600px) {
-        #ackContainer {
-            padding: 25px;
-        }
-        #ackContainer h2 {
-            font-size: 1.5rem;
-        }
-    }
+  }
 </style>
+
 <div class="container" id="ackContainer">
-    <div style="text-align: center; margin-bottom: 25px;">
-        <h2>Acknowledgement Receipt</h2>
-        <p style="color: #3498db;">Your documents have been successfully submitted.</p>
+  <!-- ======= College Header ======= -->
+  <div class="college-header">
+    <img src="Main Page Images/Gttc_Magadi_Logo.jpg" alt="GTTC Magadi Logo">
+    <h1>
+      Govt. Tool Room and Training Centre Magadi - 36
+      <span>Skill for the Technology of the Future</span>
+    </h1>
+  </div>
+
+  <!-- ======= Title ======= -->
+  <div style="text-align: center;">
+    <h2>Acknowledgement Receipt</h2>
+    <p class="subtitle">Your documents have been successfully submitted 🎉</p>
+  </div>
+
+  <!-- ======= Info Grid ======= -->
+  <div class="info-grid">
+    <div class="ack-card">
+      <h3>Personal Information</h3>
+      <p><strong>Full Name:</strong> ${data.fullname}</p>
+      <p><strong>Register Number:</strong> ${data.regnumber}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Phone:</strong> ${data.phone}</p>
+      <p><strong>Scheme:</strong> ${data.scheme}</p>
+      <p><strong>Course:</strong> ${data.course}</p>
+      <p><strong>Semester:</strong> ${data.semester}</p>
+      <p><strong>Exam Type:</strong> ${data.examType.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</p>
+      <p><strong>Subjects:</strong> ${data.subjects.length ? data.subjects.join(', ') : 'None selected'}</p>
     </div>
-    <div class="info-grid">
-        <div>
-            <h3>Personal Information</h3>
-            <p><strong>Full Name:</strong> ${data.fullname}</p>
-            <p><strong>Register Number:</strong> ${data.regnumber}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone}</p>
-            <p><strong>Scheme:</strong> ${data.scheme}</p>
-            <p><strong>Course:</strong> ${data.course}</p>
-            <p><strong>Semester:</strong> ${data.semester}</p>
-            <p><strong>Exam Type:</strong> ${data.examType.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</p>
-            <p><strong>Subjects:</strong> ${data.subjects.length ? data.subjects.join(', ') : 'None selected'}</p>
+
+    <div class="ack-card">
+      <h3>Uploaded Documents</h3>
+      <div class="upload-preview">
+        <div class="upload-item">
+          <strong>Passport Photo</strong>
+          <img src="${data.photoUrl}" alt="Passport Photo">
         </div>
-        <div>
-            <h3>Uploaded Documents</h3>
-            <div class="upload-preview">
-                <div><strong>Passport Photo:</strong><br><img src="${data.photoUrl}" style="width: 100px; height: 120px; object-fit: cover;"></div>
-                <div><strong>NOC Document:</strong><br><img src="${data.docUrl}" style="max-width: 150px; max-height: 100px; object-fit: contain;"></div>
-                <div><strong>Fees Receipt:</strong><br><img src="${data.receiptUrl}" style="max-width: 150px; max-height: 100px; object-fit: contain;"></div>
-            </div>
+        <div class="upload-item">
+          <strong>NOC Document</strong>
+          <img src="${data.docUrl}" alt="NOC Document">
         </div>
+        <div class="upload-item">
+          <strong>Fees Receipt</strong>
+          <img src="${data.receiptUrl}" alt="Fees Receipt">
+        </div>
+      </div>
     </div>
-    <div style="text-align: center; margin-top: 20px;">
-        <button onclick="downloadPDF('ackContainer', 'GTTC_Acknowledgement_${data.regnumber}.pdf')" class="pdf-btn">
-            <i class="fas fa-download"></i> Download as PDF
-        </button>
-        <button onclick="showSection('hallView')" class="nav-btn">
-            View Hall Ticket
-        </button>
-    </div>
+  </div>
+
+  <!-- ======= Buttons ======= -->
+  <div class="action-buttons">
+    <button onclick="downloadPDF('ackContainer', 'GTTC_Acknowledgement_${data.regnumber}.pdf')" class="pdf-btn">
+      <i class="fas fa-download"></i> Download as PDF
+    </button>
+    <button onclick="showSection('hallView')" class="nav-btn">
+      View Hall Ticket
+    </button>
+  </div>
 </div>
-                `;
+
+
+ `;
             }
             function generateHallTicketHTML() {
                 const data = JSON.parse(localStorage.getItem('formData'));
