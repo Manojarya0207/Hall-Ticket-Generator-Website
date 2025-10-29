@@ -496,6 +496,9 @@
         // Success UI
         modalMessage.textContent = `Welcome back, ${cred.user.displayName || cred.user.email}!`;
         openModal();
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", cred.user.displayName || cred.user.email);
+        window.location.href = "../Main_Page.html";
       } catch (err) {
         const msg = (err && err.message) ? err.message : 'Login failed';
         showSnack(msg);

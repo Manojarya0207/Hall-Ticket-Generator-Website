@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GTTC Magadi - Hall Ticket & Acknowledgement</title>
+    <script>
+        /* Redirect to login page if not signed in*/
+        if (!localStorage.getItem("isLoggedIn")) {
+            window.location.href = "Web_Pages/Login_page.html";
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -836,11 +842,12 @@
             </div>
         </div>
         <div class="blue-right">
-            <span id="usernameDisplay" style="font-size: 25px;"><span style="font-size: 25px;">💇‍♂️ </span>Guest</span>
-            <button class="login-btn">
-               <a href="Web_Pages/Login_page.html">Login</a>
+            <span id="usernameDisplay" style="font-size: 25px;">💇‍♂️ Guest</span>
+            <button class="login-btn" id="authButton">
+                <a href="#">Login</a>
             </button>
         </div>
+
     </div>
     <!-- Main Form Container -->
     <div class="container main-form" id="mainForm">
@@ -2804,6 +2811,28 @@
                 });
             };
         });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const usernameDisplay = document.getElementById("usernameDisplay");
+        const authButton = document.getElementById("authButton");
+
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        const username = localStorage.getItem("username") || "Guest";
+
+        if (isLoggedIn) {
+            usernameDisplay.textContent = "💇‍♂️ " + username;
+            authButton.innerHTML = "<a href='#'>Logout</a>";
+            authButton.addEventListener("click", () => {
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("username");
+                window.location.href = "Web_Pages/Login_page.html";
+            });
+        } else {
+            usernameDisplay.textContent = "💇‍♂️ Guest";
+            authButton.innerHTML = "<a href='Web_Pages/Login_page.html'>Login</a>";
+        }
+    });
     </script>
 </body>
 
