@@ -461,6 +461,7 @@
             overflow: hidden;
             background: #fafbfc;
         }
+        
 
         .upload-box:hover {
             border-color: #3498db;
@@ -809,21 +810,21 @@
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-left">
-            <img src="Main_Page_Images/Gttc_Magadi_Logo.jpg" alt="GTTC Logo">
+            <img src="gttc1.png" alt="GTTC Logo">
             <div class="top-left-text">
                 <h1>Government Tool Room & Training Centre <span>Magadi - 36</span></h1>
                 <p>Magadi - Exam Hall Ticket Generator</p>
             </div>
         </div>
         <div class="top-right">
-            <img src="Main_Page_Images/Karnataka_logo.png" alt="Karnataka Logo">
+            <img src="karnat.png" alt="Karnataka Logo">
         </div>
     </div>
     <!-- Blue Bar -->
     <div class="blue-bar">
         <div class="blue-left">
             <div class="logo">
-                <img src="Main_Page_Images/Gttc_Magadi_Logo.jpg" alt="College Logo">
+                <img src="gttc1.png" alt="College Logo">
             </div>
             <div class="blue-left-text">
                 <h2>GTTC MAGADI</h2>
@@ -2781,7 +2782,7 @@
 <div class="container" id="ackContainer">
   <!-- ======= College Header ======= -->
   <div class="college-header">
-    <img src="Main_Page_Images/Gttc_Magadi_Logo.jpg" alt="GTTC Magadi Logo">
+    <img src="C:\Users\Administrator\OneDrive\Desktop\ALL VS CODE FILES\rajeshk\gttc_magai\gttc1.png" alt="GTTC Magadi Logo">
     <h1>
       Govt. Tool Room and Training Centre Magadi - 36
       <span>Skill for the Technology of the Future</span>
@@ -2881,7 +2882,7 @@
     <div style="display: flex; align-items: center; justify-content: center; gap: 22px; margin-bottom: 27.5px; text-align: center;">
         <!-- Logo -->
         <div>
-            <img src="Main_Page_Images/Gttc_Magadi_Logo.jpg" alt="GTTC Logo"
+            <img src="C:\Users\Administrator\OneDrive\Desktop\ALL VS CODE FILES\rajeshk\gttc_magai\gttc1.png" alt="GTTC Logo"
                 style="width: 83px; height: 83px; object-fit: contain;">
         </div>
 
@@ -2966,8 +2967,8 @@
         </div>
     </div>
 
-    <!-- Buttons (+10%) -->
-    <div style="margin-top: 30px; text-align: center;">
+            <!-- Buttons - Hidden in PDF but visible on web -->
+    <div id="hallTicketButtons" style="margin-top: 30px; text-align: center; display: block;">
         <button onclick="downloadPDF('hallContainer', 'GTTC_HallTicket_${data.regnumber}.pdf')"
             style="background: #3498db; color: #fff; border: none; padding: 7.3px 17px; border-radius: 6.6px; cursor: pointer; font-weight: 600; font-size: 14.5px; margin-right: 10px;">
             <i class="fas fa-download"></i> Download
@@ -2977,9 +2978,6 @@
             Back
         </button>
     </div>
-</div>
-
-
                 `;
             }
             function showAcknowledgment() {
@@ -2994,30 +2992,40 @@
                 document.querySelectorAll('#ackView, #hallView').forEach(el => el.style.display = 'none');
                 document.getElementById(id).style.display = 'block';
             };
-            window.downloadPDF = function (elementId, filename) {
-                const {
-                    jsPDF
-                } = window.jspdf;
-                const element = document.getElementById(elementId);
-                html2canvas(element).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const imgWidth = 210;
-                    const pageHeight = 297;
-                    const imgHeight = canvas.height * imgWidth / canvas.width;
-                    let heightLeft = imgHeight;
-                    let position = 0;
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                    while (heightLeft >= 0) {
-                        position = heightLeft - imgHeight;
-                        pdf.addPage();
-                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
-                    }
-                    pdf.save(filename);
-                });
-            };
+           window.downloadPDF = function (elementId, filename) {
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById(elementId);
+    
+    // Hide buttons before capturing
+    const buttons = document.getElementById('hallTicketButtons');
+    if (buttons) {
+        buttons.style.display = 'none';
+    }
+    
+    html2canvas(element).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210;
+        const pageHeight = 297;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        pdf.save(filename);
+        
+        // Show buttons again after download
+        if (buttons) {
+            buttons.style.display = 'block';
+        }
+    });
+};
         });
     </script>
 </body>
